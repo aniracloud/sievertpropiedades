@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "sievertpropiedades-26a87": {
+      "hosting": {
+        "sievertpropiedades": [
+          "sievertpropiedades-26a87"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "sievertpropiedades-26a87"
+  }
+}

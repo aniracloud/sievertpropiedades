@@ -1,0 +1,118 @@
+.new-propiedad-container{
+  display: flex;
+  flex-direction: column;
+  form{
+    margin-bottom: 20px;
+    input[type='file']{
+      display: none;
+    }
+
+    input.mat-flat-button{
+      width: 100%;
+      background: #4e0561;
+      &:hover{
+        background: #4e0565;
+      }
+    }
+
+    .custom-file{
+      border: 1px solod #ccc;
+      display: inline-block;
+      padding: 6px 0;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .container-input-file{
+      margin: 2rem 0;
+    }
+
+    .container-button{
+      min-height: 80px;
+    }
+
+    mat-form-field{
+      width: 100%;
+    }
+  }
+}
+
+
+/*      ***************************     otros ******************************/
+
+.example-h2 {
+  margin: 10px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 18px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+
+
+
+
+
+.mat-form-field {
+  margin-right: 8px;
+}
+
+
+
+.full-width{
+  width: 100%;
+}
+
+.full-medium{
+  width: 50%;
+}
+
+
+/* mueve */
+
+.mat-form-field {
+  margin-top: 1px;
+}
+
+
+
+.iconCaracteristica{
+  margin: 30px  30px;
+
+}
+
+.titulo{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: larger;
+  font-weight: 700;
+}
+
+
+ul {
+  list-style-type: none;
+  margin-top: 4px;
+}
+
+
+ .borde {
+   border: solid 1px;
+ }
+
+ .classdescription{
+  width: 100%;
+
+}
+
+.bord{
+  padding-top: 10px;
+}
+

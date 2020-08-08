@@ -1,0 +1,21 @@
+<mat-card-header>
+  <mat-card-title>
+      <a [routerLink]="['/propiedad', propiedad.id]">
+          {{ propiedad.titlePropiedad }}
+      </a>
+  </mat-card-title>
+</mat-card-header>
+<img matCardImage [src]="propiedad.imagePropiedad">
+<mat-card-content>
+  <p>
+      {{ propiedad.contentPropiedad }}
+  </p>
+</mat-card-content>
+<mat-divider></mat-divider>
+<mat-card-actions>
+  <mat-chip-list>
+      <mat-chip selected *ngFor="let tag of propiedad.tagsPropiedad" [ngClass]="tag">
+          {{ tag }}
+      </mat-chip>
+  </mat-chip-list>
+</mat-card-actions>

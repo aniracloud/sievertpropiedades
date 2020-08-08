@@ -1,0 +1,11 @@
+<div class="container" *ngIf="propiedades$ | async as propiedades; else loading">
+    <mat-card class="propiedad-card" *ngFor="let propiedad of propiedades">
+      <app-propiedad [propiedad]="propiedad"></app-propiedad>
+    </mat-card>
+</div>
+
+<ng-template #loading>
+    <div class="container-spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

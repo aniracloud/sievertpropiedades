@@ -1,0 +1,48 @@
+$letras : #666;
+$button-color: #007BB6;
+
+
+:host {
+    display: flex;
+    justify-content: center;
+    margin: 100px 0;
+}
+
+.mat-form-field {
+    width: 100%;
+    min-width: 300px;
+}
+
+mat-card-title,
+mat-car-content, .col-flex {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    background: $button-color !important;
+}
+
+.mat-card {
+  background: none;
+}
+
+
+.mat-card-title{
+  color: $letras;
+}
+
+.windows-login{
+  color: black;
+}
+
+mat-form-field text{
+  background: brown;
+  color: black;
+}
+
+mat-form-field input {
+  border: 2px solid rgb(229, 226, 226);
+  padding: 10px;
+  color: black;
+}

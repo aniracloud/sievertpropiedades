@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md">
+      <nav class="navbar navbar-dark ">
+        <a class="navbar-brand" href="#">
+          <img src="../../../../assets/img/logo-head2.png"  loading="lazy">
+        </a>
+        <div class="d-flex justify-content-end header">
+            <a routerLink="/admin" routerLinkActive="active" *ngIf="authSvc.userData$ | async">
+            <button>Adminitrar</button>
+            </a>
+
+            <a routerLink="/about" routerLinkActive="active">
+                <button >Nosotros</button>
+            </a>
+
+            <a routerLink="/ayuda" routerLinkActive="active">
+              <button>Ayuda</button>
+            </a>
+
+            <a *ngIf="authSvc.userData$ | async; else showLogin" (click)="onLogout()">
+                <button>Salir</button>
+            </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="../../../../assets/img/home1.fw.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../../../../assets/img/home2.fw.png" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="../../../../assets/img/home3.fw.png" class="d-block w-100" alt="...">
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row  card-2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id  card-2="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+          <li class="nav-item dropdown ">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Modalidad
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="#">Venta</a>
+              <a class="dropdown-item" href="#">Arriendo</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              otros
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Departamento</a>
+              <a class="dropdown-item" href="#">Casa</a>
+              <a class="dropdown-item" href="#">Sitios</a>
+              <a class="dropdown-item" href="#">Parcelas</a>
+              <a class="dropdown-item" href="#">Oficinas</a>
+              <a class="dropdown-item" href="#">Locales</a>
+              <a class="dropdown-item" href="#">Industriales</a>
+              <a class="dropdown-item" href="#">Agricolas</a>
+              <a class="dropdown-item" href="#">Terrenos</a>
+              <a class="dropdown-item" href="#">Bodegas</a>
+              <a class="dropdown-item" href="#">Estacionamientos</a>
+              <a class="dropdown-item" href="#">Loteos</a>
+              <a class="dropdown-item" href="#">Otros Inmuebles</a>
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" [formGroup]="busquedaForm" (ngSubmit)="BuscarPropiedad(busquedaForm.value)">
+          <input class="input-padding" type="search"placeholder="Buscar" formControlName="busca">
+          <button class="btn btn-primary" type="submit">Buscar</button>
+        </form>
+      </div>
+    </nav>
+  </div>
+</div>
+
+
+
+
+<ng-template #showLogin>
+  <a routerLink="/login" routerLinkActive="active">
+      <button>Ingresar</button>
+  </a>
+</ng-template>

@@ -1,0 +1,47 @@
+<mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="filter">
+</mat-form-field>
+
+<!-- boton crear nuevo -->
+<div class="container-btn-new">
+  <button mat-stroked-button color="accent" (click)="onNewPropiedad(element)">
+    <mat-icon>note_add</mat-icon>&nbsp; Nueva Propiedad
+  </button>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="titlePropiedad">
+        <th mat-header-cell *matHeaderCellDef>Propiedad</th>
+        <td mat-cell *matCellDef="let element"> {{element.titlePropiedad}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="tags">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>tags</th>
+        <td mat-cell *matCellDef="let element"> {{element.tagsPropiedad}} </td>
+    </ng-container>
+
+    <!-- Accion Column -->
+    <ng-container matColumnDef="Accion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Accion</th>
+      <td mat-cell *matCellDef="let element">
+        <!-- Boton editar -->
+        <button mat-stroked-button color="accent" (click)="onEditPropiedad(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <!-- Boton eliminar -->
+        <button mat-stroked-button color="warn" (click)="onDeletedPropiedad(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+  </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

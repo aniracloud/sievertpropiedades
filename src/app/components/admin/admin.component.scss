@@ -1,0 +1,25 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    mat-icon {
+        cursor: pointer;
+    }
+}
+
+mat-sidenav {
+    width: 200px;
+    cursor: pointer;
+    background: #1E73BE;
+    position: fixed;
+    top: 55px;
+    z-index: 1000;
+    color: white;
+}
+
+.mat-list-base .mat-list-item,
+a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
