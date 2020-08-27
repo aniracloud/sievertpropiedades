@@ -10,26 +10,6 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_FORMATS } from '@angular/material-
 import { MatExpansionModule } from '@angular/material/expansion';
 
 
-import {
-    MatButtonModule,
-    MatCardModule,
-    MatMenuModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatListModule,
-    MatProgressSpinnerModule,
-    MatDividerModule,
-    MatChipsModule,
-    MatInputModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    } from '@angular/material';
-
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import {MatStepperModule} from '@angular/material/stepper';
@@ -44,25 +24,48 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 
 import {MatRadioModule} from '@angular/material/radio';
 
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
+
+
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule} from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
 
 const mymodule = [
+  MatCardModule,
   MatRadioModule,
   TextFieldModule,
   CdkTableModule,
   CdkTreeModule,
+  MatFormFieldModule,
+  MatStepperModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatMomentDateModule,
+  MatExpansionModule,
   MatButtonModule,
   MatMenuModule,
   MatToolbarModule,
   MatIconModule,
   MatSidenavModule,
   MatListModule,
-  MatCardModule,
   MatProgressSpinnerModule,
-  MatChipsModule,
   MatDividerModule,
-  MatFormFieldModule,
   MatInputModule,
   MatTableModule,
   MatPaginatorModule,
@@ -70,11 +73,10 @@ const mymodule = [
   MatDialogModule,
   MatSelectModule,
   MatAutocompleteModule,
-  MatStepperModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatMomentDateModule,
-  MatExpansionModule
+  MatChipsModule
+
+
+
 ];
 
 

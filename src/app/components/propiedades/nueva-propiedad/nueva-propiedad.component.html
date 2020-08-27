@@ -77,7 +77,10 @@
             </div>
         </form>
       </mat-step>
-      <!-- caracteristicas de la propiedad-->
+
+<!-- *****************************caracteristicas de la propiedad**********************************-->
+
+
       <mat-step [stepControl]="secondFormGroup" errorMessage="El campo es requrido">
         <form [formGroup]="secondFormGroup">
           <ng-template matStepLabel>Caracteristicas de la Propiedad</ng-template>
@@ -277,7 +280,12 @@
           </div>
         </form><!--  >Segundo formulario del formulario-->
       </mat-step>
-      <!-- Valorizacion de la propiedad-->
+
+
+
+<!-- *****************************Valorizacion de la propiedad**********************************-->
+
+
       <mat-step>
         <form [formGroup]="thirdFormGroup">
           <ng-template matStepLabel>Valor de la Propiedad</ng-template>

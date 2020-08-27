@@ -32,8 +32,8 @@ export class ToolbarComponent implements OnInit {
     this.authSvc.logout();
   }
 
-  BuscarPropiedad() {
-
+  BuscarPropiedad(propiedad: string) {
+  // propiedad porsia acaso mientras
   }
 
 }

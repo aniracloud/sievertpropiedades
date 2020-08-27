@@ -89,7 +89,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
 
-  onNewPropiedad(propiedad: PropiedadI) {
+  onNewPropiedad(propiedad?: PropiedadI) {
     this.openDialog();
   }
 
