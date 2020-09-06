@@ -32,7 +32,7 @@ export class ToolbarComponent implements OnInit {
     this.authSvc.logout();
   }
 
-  BuscarPropiedad() {
+  BuscarPropiedad(valor: string) { // terminar el proceso
 
   }
 

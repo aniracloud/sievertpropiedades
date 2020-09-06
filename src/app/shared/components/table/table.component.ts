@@ -1,14 +1,17 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator} from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 
-import { MatTableDataSource} from '@angular/material/table';
 import { PropiedadService } from '../../../components/propiedades/propiedad.service';
 import { PropiedadI } from '../../models/propiedad.interface';
 
 import Swal from 'sweetalert2';
-import { MatDialog } from '@angular/material/dialog';
+
 import { ModalComponent } from '../modal/modal.component';
+
+import { MatTableDataSource} from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+
 
 
 
@@ -89,7 +92,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
 
-  onNewPropiedad(propiedad: PropiedadI) {
+  onNewPropiedad(propiedad?: PropiedadI) {
     this.openDialog();
   }
 
