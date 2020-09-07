@@ -16,9 +16,10 @@ import { Task } from '@shared/models/taks.interface';
 
 import { HttpErrorResponse } from '@angular/common/http';
 
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import { STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
-import {MatAccordion} from '@angular/material/expansion';
+import { MatAccordion} from '@angular/material/expansion';
+
 
 
 
@@ -41,10 +42,6 @@ import {MatAccordion} from '@angular/material/expansion';
 
 
 export class NuevaPropiedadComponent implements OnInit {
-  firstFormGroup  :   FormGroup;
-  secondFormGroup :   FormGroup;
-  thirdFormGroup  :   FormGroup;
-
 
   @ViewChild ('firstAccordion', { static: true }) firstAccordion: MatAccordion;
   @ViewChild ('secondAccordion', { static: true }) secondAccordion: MatAccordion;
@@ -54,7 +51,7 @@ export class NuevaPropiedadComponent implements OnInit {
   public region: any;
 
 
-
+  name = new FormControl('');
 
   calefa2: Array<string> = ['Loza Radiante', 'Radiador Ind.', 'Caldera Ind.', 'Caldera Edificio'];
   orienta2 = ['N', 'NP', 'NO', 'S', 'SO', 'SP'];
@@ -62,33 +59,6 @@ export class NuevaPropiedadComponent implements OnInit {
   ItemSelectedValues = [];
   others_build: string[] = ['cocina americana', 'Estar', 'Logia', 'Patio', 'Home Office'];
   othersInstallBuild: string[] = ['Conserje', 'Areas Verdes', 'Sauna', 'Ascensor', 'Bicicletero', 'Piscina', 'Estacionamiento Visitas', 'Gimnasio', 'Sala Multiuso', 'Quincho'];
-
-
-  task: deptoInterface = {
-      subtasks: [
-        {name: 'mt_utiles' },
-        {name: 'contructora'},
-        {name: 'dormitorio'},
-        {name: 'baños'},
-        {name: 'cocina_americana'},
-        {name: 'calefaccion', calefaccion: this.calefa2},
-        {name: 'estar'},
-        {name: 'logia'},
-        {name: 'antiguedad'},
-        {name: 'gastos_comun'},
-        {name: 'orientacion', orientacion: this.orienta2},
-        {name: 'bodega'},
-        {name: 'piso'},
-        {name: 'niveles'},
-        {name: 'terraza'},
-        {name: 'terraza_sup'},
-        {name: 'patio'},
-        {name: 'homeOfice'},
-        {name: 'comunidad', comunidad: this.comunidad2 }
-      ]
-  };
-
-
 
 
 
@@ -111,25 +81,13 @@ export class NuevaPropiedadComponent implements OnInit {
   lastNameAutofilled: boolean ;
 
 
-
   public valorUF: any;
 
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
 
 
-/*
-  public newPropiedadForm = new FormGroup({
-    titlePropiedad:    new FormControl('', Validators.required),
-    direccion:         new FormControl('', Validators.required),
-    comunasChile:      new FormControl('', Validators.required),
-    valorPrecioUF:     new FormControl('', Validators.required),
-    contentPropiedad:  new FormControl('', Validators.required),
-    tagsPropiedad:     new FormControl('', Validators.required),
-    imagePropiedad:    new FormControl('', Validators.required),
-  });
-  treeFormGroup: FormGroup;
-
-
-*/
 
 
   constructor(  private propiedadSvc: PropiedadService,
@@ -140,18 +98,15 @@ export class NuevaPropiedadComponent implements OnInit {
 
   ngOnInit() {
 
-
-
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl:       ['', Validators.required],
       titulo:          ['', Validators.required],
       direccion:       ['', Validators.required],
       regionSelected:  ['', Validators.required],
       comunaSelected:  ['', Validators.required],
       codigo:          [''],
-      tipoSelected:    ['', Validators.required],
-      arriendo:        ['', Validators.required],
-      venta:           ['', Validators.required]
+      typeSelected:    ['', Validators.required],
+      rent:    [''],
+      sales:    ['']
     });
 
 
@@ -161,7 +116,7 @@ export class NuevaPropiedadComponent implements OnInit {
       Constr:       ['', Validators.required],
       Met_utiles:   ['', Validators.required],
       build_floor:  ['', Validators.required],
-      build_terrace:['', Validators.required],
+      build_terrace: ['', Validators.required],
       orienta:      ['', Validators.required],
       control:      ['', Validators.required],
       bedroom:      ['', Validators.required],
@@ -220,12 +175,17 @@ export class NuevaPropiedadComponent implements OnInit {
 
   }
 
+  OnChange($event){
+    console.log($event);
 
+
+    // MatCheckboxChange {checked,MatCheckbox}
+}
 
 
   addNewPropiedad(data: PropiedadI) {
-    // console.log('New post', data);
-    this.propiedadSvc.preAddAndUpdatePropiedad(data, this.image);
+    console.log('New post', data);
+    // this.propiedadSvc.preAddAndUpdatePropiedad(data, this.image);
   }
 
 
@@ -269,7 +229,7 @@ export class NuevaPropiedadComponent implements OnInit {
   getItemSelectedValue() {
     this.ItemSelectedValues = [];
     this.calefa2.forEach((control, i) => {
-      if(control) {
+      if (control) {
         this.ItemSelectedValues.push(this.calefa2[i]);
       }
     });

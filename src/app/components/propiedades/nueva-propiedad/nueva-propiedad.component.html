@@ -1,24 +1,16 @@
-<!--<div class="new-propiedad-container"> -->
-
-  <!--{{regionesChile | json}} -->
-
- <!-- <form [formGroup]="newPropiedadForm" (ngSubmit)="addNewPropiedad(newPropiedadForm.value)">   -->
-
-
-    <mat-horizontal-stepper #stepper>
-      <mat-step [stepControl]="firstFormGroup" errorMessage="El Titulo es obligatorio.">
-        <!-- Individualizacion de la  Propiedad-->
+<mat-horizontal-stepper #stepper>
+      <!-- Individualizacion de la  Propiedad-->
+      <mat-step [stepControl]="firstFormGroup" >
         <form [formGroup]="firstFormGroup">
           <ng-template matStepLabel>Datos Propiedad</ng-template>
-
             <mat-form-field class="full-medium">
                 <mat-label>Titulo</mat-label>
-                <input matInput formControlName ="titulo" minlength="5" maxlength="30">
+                <input matInput formControlName ="titulo" minlength="5" maxlength="30" placeholder="5 caracteres minimo" required>
             </mat-form-field>
             <p>
               <mat-form-field class="full-medium">
                 <mat-label>Direccion</mat-label>
-                <input matInput formControlName ="direccion" minlength="5" maxlength="30">
+                <input matInput formControlName ="direccion" minlength="5" maxlength="30" required>
               </mat-form-field>
             </p>
             <table class="full-width">
@@ -27,7 +19,7 @@
                   <mat-form-field>
                     <mat-label>Region</mat-label>
                     <mat-select formControlName="regionSelected">
-                      <mat-option *ngFor= "let regionchile of regionesChile"  [value]="regionchile.comunas"  (click)="getComunaSelectedValue(regionchile.comunas)" >
+                      <mat-option *ngFor= "let regionchile of regionesChile"  [value]="regionchile.comunas"  (click)="getComunaSelectedValue(regionchile.comunas)">
                         {{ regionchile.region }}
                       </mat-option>
                     </mat-select>
@@ -36,7 +28,7 @@
                 <td>
                   <mat-form-field>
                     <mat-label>Comuna</mat-label>
-                    <mat-select formControlName="comunaSelected" Name="comuna">
+                    <mat-select formControlName="comunaSelected" Name="comuna" aria-required="regionSelected">
                       <mat-option *ngFor="let comuna of comunasChile" [value]="comuna">
                         {{ comuna }}
                       </mat-option>
@@ -46,7 +38,7 @@
                 <td>
                   <mat-form-field>
                     <mat-label>Codigo Postal</mat-label>
-                    <input matInput type="tel" formControlName="codigo" #postalCode maxlength="7" name="codigoPostal" (keydown)="UbicacionSvc.check($event)">
+                    <input matInput type="tel" formControlName="codigo" #postalCode maxlength="7" name="codigo" (keydown)="UbicacionSvc.check($event)">
                     <mat-hint align="end">{{postalCode.value.length}} / 8</mat-hint>
                   </mat-form-field>
                 </td>
@@ -55,7 +47,7 @@
                 <td>
                   <mat-form-field>
                       <mat-label>Tipo</mat-label>
-                      <mat-select (formControlName)="tipoSelected" Name="tipoSelected">
+                      <mat-select formControlName="typeSelected" Name="typeSelected">
                         <mat-option *ngFor="let tipos of tipoPropiedades" [value]="tipos.propiedad">
                             {{ tipos.propiedad }}
                         </mat-option>
@@ -65,8 +57,8 @@
                 <td>
                     <div>
                       <mat-label>Modalidad:</mat-label>
-                      <mat-checkbox formControlName="arriendo" class="example-margin">Arriendo</mat-checkbox>
-                      <mat-checkbox formControlName="venta" class="example-margin">Venta</mat-checkbox>
+                      <mat-checkbox formControlName="rent" Name="rent" class="example-margin" (change)="OnChange($event)" required>Arriendo</mat-checkbox>
+                      <mat-checkbox formControlName="sales" Name="sales" class="example-margin" (change)="OnChange($event)" required>Venta</mat-checkbox>
                     </div>
                 </td>
               </tr>
@@ -77,6 +69,7 @@
             </div>
         </form>
       </mat-step>
+
       <!-- caracteristicas de la propiedad-->
       <mat-step [stepControl]="secondFormGroup" errorMessage="El campo es requrido">
         <form [formGroup]="secondFormGroup">
@@ -85,7 +78,7 @@
 
               <mat-form-field appearance="outline">
                 <mat-label>Constructora</mat-label>
-                <input  formControlName="Constr"
+                <input formControlName="Constr"
                         name="Constr" type="text"
                         matInput maxlength="20">
               </mat-form-field>
@@ -101,7 +94,7 @@
 
               <mat-form-field appearance="outline">
                 <mat-label>Metros Utiles</mat-label>
-                <input  formControlName="Met_utiles"
+                <input formControlName="Met_utiles"
                         name="Met_utiles" type="text"
                         matInput maxlength="4" (keydown)="getTecla($event, 'Met_utiles')">
               </mat-form-field>
@@ -158,12 +151,6 @@
                     <mat-panel-title>
                       Ambientes
                     </mat-panel-title>
-                    <!--
-                    <mat-panel-description>
-                      Type your name and age
-                      <mat-icon>account_circle</mat-icon>
-                    </mat-panel-description>
-                    -->
                   </mat-expansion-panel-header>
                     <mat-selection-list #shoes>
                       <mat-list-option *ngFor="let other of others_build">
@@ -172,21 +159,12 @@
                     </mat-selection-list>
                 </mat-expansion-panel>
               </mat-accordion>
-
-
-
               <mat-accordion #secondAccordion="matAccordion" class="example-headers-align" multi>
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                       Instalciones Edificio
                     </mat-panel-title>
-                    <!--
-                    <mat-panel-description>
-                      Type your name and age
-                      <mat-icon>account_circle</mat-icon>
-                    </mat-panel-description>
-                    -->
                   </mat-expansion-panel-header>
                     <mat-selection-list #shoes>
                       <mat-list-option *ngFor="let othersInstall of othersInstallBuild">
@@ -208,67 +186,6 @@
                 </textarea>
                 <mat-hint align="end">{{labeldescription.value?.length || 0}}/300</mat-hint>
              </mat-form-field>
-
-
-
-
-
-
-<!--
-                <mat-checkbox *ngFor="let control of orienta2; index as i">
-
-                  <span (change)="getItemSelectedValue()"
-                          id="inlineCheckbox{{i}}">{{ control[i] }}</span>
-                </mat-checkbox>
-
--->
-
-
-
-
-
-
-<!--
-              <mat-label>Metros Utiles</mat-label>
-              <input  formControlName="Met_utiles"
-                      name="Mutiles" type="text"
-                      matInput maxlength="4" (keydown)="getTecla($event, 'Mutiles')">
--->
-
-
-
-
-
-
-
-<!--
-
-                        <li *ngFor ="let dependecia of task.subtasks">
-                            <mat-checkbox>
-
-<span *ngIf="!dependecia.calefaccion || !dependecia.orientacion ||  !dependecia.comunidad">
-  {{ dependecia.name}}
-
-
-</span>
-                                <span *ngIf="dependecia.calefaccion || dependecia.orientacion || dependecia.comunidad" >
-                                            <mat-checkbox *ngFor="let cale of dependecia.calefaccion; index as i" (click)=activa($event)>
-                                               <span id="inlineCheckbox{{i}}">{{ dependecia.calefaccion[i] }}</span>
-                                            </mat-checkbox>
-
-                                            <mat-checkbox *ngFor="let control of dependecia.orientacion; index as i">
-                                                <span (change)="getItemSelectedValue()"
-                                                        id="inlineCheckbox{{i}}">{{ dependecia.orientacion[i] }}</span>
-                                            </mat-checkbox>
-
-                                            <mat-checkbox *ngFor="let cale of dependecia.comunidad; index as i">
-                                                <span id="inlineCheckbox{{i}}">{{ dependecia.comunidad[i] }}</span>
-                                            </mat-checkbox>
-                                </span>
-                            </mat-checkbox>
-                        </li>
--->
-
 
           <mat-divider></mat-divider>
           <div class="bord">
@@ -309,76 +226,10 @@
               <button mat-button matStepperPrevious>Atras</button>
               <button mat-button (click)="stepper.reset()">Borrar</button>
             </div>
+            <div>
+              <button class="btn btn-primary btn-block"> Grabar</button>
+            </div>
         </form>
       </mat-step>
+
     </mat-horizontal-stepper>
-
-
-
-
-
-
-<!--
-
-
-
-    <mat-form-field>
-      <mat-label>Titulo</mat-label>
-        <input matInput placeholder="Descripcion" formControlName="titlePropiedad">
-      </mat-form-field>
-
-      <section class="example-section">
-        <label class="example-margin">Propiedad:</label>
-        <mat-select>
-          <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
-        </mat-select>
-      </section>
-
-      <section class="example-section">
-        <label class="example-margin">Modalidad:</label>
-          <mat-checkbox class="example-margin" value="after">Venta</mat-checkbox>
-          <mat-checkbox class="example-margin" value="before">Arriendo</mat-checkbox>
-      </section>
-
-      <mat-form-field class="example-full-width">
-        <mat-label>Precio</mat-label>
-        <input matInput #postalCode maxlength="7" placeholder="precio" value="">
-        <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
-      </mat-form-field>
-
--->
-
-
-
-
-
-
-<!--
-
-
-    <mat-form-field>
-      <mat-label>Content23</mat-label>
-      <input matInput placeholder="Contenido propiedad"
-      formControlName="contentPropiedad">
-    </mat-form-field>
-
-
-    <mat-form-field>
-      <mat-select placeholder="Tags" multiple formControlName="tagsPropiedad">
-          <mat-option value="life">Life</mat-option>
-          <mat-option value="sport">Sport</mat-option>
-          <mat-option value="beauty">Beauty</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="container-input-file">
-      <label class="custom-file">
-        <input type="file"  formControlName="imagePropiedad" (change)="handleimage($event)"/>&nbsp;
-        <mat-icon>cloud_upload</mat-icon><span>&nbsp; Elija una imagen</span>
-      </label>
-    </div>
-    <div class="container-button">
-      <input type="submit" class="mat-flat-button" value="Grabar" [mat-dialog-close]="true">
-    </div>
-  </form>
--->
-<!--</div>-->
