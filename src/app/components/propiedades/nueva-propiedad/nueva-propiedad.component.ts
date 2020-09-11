@@ -1,30 +1,19 @@
 import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators, FormBuilder, ControlContainer } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators, FormBuilder, ControlContainer, FormControlName, AbstractControl } from '@angular/forms';
 import { PropiedadI } from '@shared/models/propiedad.interface';
 import { PropiedadService } from '@components/propiedades/propiedad.service';
 import { UbicacionesService } from '@shared/services/ubicaciones.service';
-
-import { deptoInterface} from '@shared/models/caract_depto.interface';
-
-
-
-import { of, from, BehaviorSubject, Observable} from 'rxjs';
-
-import {map, startWith} from 'rxjs/operators';
-
-import { Task } from '@shared/models/taks.interface';
 
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
 import { MatAccordion} from '@angular/material/expansion';
-
-
-
-
-
-
+import { concatMapTo, map } from 'rxjs/operators';
+import { getTestBed } from '@angular/core/testing';
+import { FormValidations } from './mode.validator';
+import { pipe} from 'rxjs';
+import { SlicePipe } from '@angular/common';
 
 
 
@@ -39,8 +28,6 @@ import { MatAccordion} from '@angular/material/expansion';
 
 
 
-
-
 export class NuevaPropiedadComponent implements OnInit {
 
   @ViewChild ('firstAccordion', { static: true }) firstAccordion: MatAccordion;
@@ -51,7 +38,9 @@ export class NuevaPropiedadComponent implements OnInit {
   public region: any;
 
 
-  name = new FormControl('');
+  modalidad = ['Arriendo', 'Venta'];
+
+
 
   calefa2: Array<string> = ['Loza Radiante', 'Radiador Ind.', 'Caldera Ind.', 'Caldera Edificio'];
   orienta2 = ['N', 'NP', 'NO', 'S', 'SO', 'SP'];
@@ -71,14 +60,13 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
 
-
   valorPrecioPeso = '';
   valorPrecioUF = '';
   valorcasilla: false;
 
 
-  firstNameAutofilled: boolean ;
-  lastNameAutofilled: boolean ;
+
+  public build_floor = '';
 
 
   public valorUF: any;
@@ -92,46 +80,49 @@ export class NuevaPropiedadComponent implements OnInit {
 
   constructor(  private propiedadSvc: PropiedadService,
                 public UbicacionSvc: UbicacionesService,
-                private _formBuilder: FormBuilder
+                private _formBuilder: FormBuilder,
+
                 ) {}
 
 
   ngOnInit() {
 
     this.firstFormGroup = this._formBuilder.group({
-      titulo:          ['', Validators.required],
+      titulo:           ['', [Validators.required,
+                            Validators.minLength(5),
+                            Validators.maxLength(30),
+                            Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$')]],
       direccion:       ['', Validators.required],
       regionSelected:  ['', Validators.required],
       comunaSelected:  ['', Validators.required],
-      codigo:          [''],
+      codigo:          ['', Validators.pattern('\\-?\\d*\\.?\\d{1,2}')],
       typeSelected:    ['', Validators.required],
-      rent:    [''],
-      sales:    ['']
-    });
-
+      modalidad:       this.buildModalidad()
+     // modalidad: this._formBuilder.group({
+      //  rent:    [''],
+      //  sales:    ['']
+      });
 
 
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl:   ['', Validators.required],
-      Constr:       ['', Validators.required],
-      Met_utiles:   ['', Validators.required],
-      build_floor:  ['', Validators.required],
+      building:   [''],
+      old_build:       [''],
+      met_utiles:   ['', Validators.required],
+      build_floor:  ['', Validators.pattern('^[0-9]+$')],
+
+      bedroom:  ['', Validators.required],
+      bath:         ['', Validators.required],
       build_terrace: ['', Validators.required],
+      store:        ['', Validators.required],
+
+
       orienta:      ['', Validators.required],
       control:      ['', Validators.required],
-      bedroom:      ['', Validators.required],
-      bath:         ['', Validators.required],
-      old_build:    ['', Validators.required],
-      store:        ['', Validators.required],
+
+
       description:  ['', Validators.required]
 
-
-
-
-
-
     });
-
 
 
     this.thirdFormGroup = this._formBuilder.group({
@@ -139,8 +130,6 @@ export class NuevaPropiedadComponent implements OnInit {
       valorPrecioUF:    ['', Validators.required],
       valorPrecioPeso:  ['', Validators.required]
     });
-
-
 
 
     this.UbicacionSvc.getRegiones()
@@ -172,15 +161,43 @@ export class NuevaPropiedadComponent implements OnInit {
                     () => { console.log('fin Economico'); }
         );
 
+        this.getFieldNumber();
+  }
+
+  buildModalidad(){
+    const values = this.modalidad.map(value => new FormControl(false));
+    console.log(values[1]);
+    return this._formBuilder.array(values,FormValidations.requiredMinCheckbox(1));
+    /* this._formBulder.array([
+      new FormControl(false),
+      new FormControl(false)
+    ]);*/
+  }
+
+
+
+  getModalidadControl() {
+    return this.firstFormGroup.get('modalidad') ? (<FormArray>this.firstFormGroup.get('modalidad')).controls : null;
+  }
+
+
+
+
+
+
+  OnChange($event): any{
+    // MatCheckboxChange {checked,MatCheckbox}
+   console.log($event.values);
+   console.log($event);
+   if ($event){
+    return this.firstFormGroup.valid;
+  }
 
   }
 
-  OnChange($event){
-    console.log($event);
-
-
-    // MatCheckboxChange {checked,MatCheckbox}
-}
+  onSubmit(){
+    console.log('Valores => ' + JSON.stringify(this.firstFormGroup.value));
+  }
 
 
   addNewPropiedad(data: PropiedadI) {
@@ -210,6 +227,24 @@ export class NuevaPropiedadComponent implements OnInit {
     }
     this.UbicacionSvc.check(event);
   }
+
+
+  getFieldNumber() {
+    //const valor = (this.secondFormGroup.get('build_floor').value);
+    this.secondFormGroup.get('build_floor').valueChanges
+    .subscribe(val=>{
+
+
+      console.log(val | SlicePipe '1:2');
+    });
+
+  }
+
+
+
+
+
+
 
 
 
