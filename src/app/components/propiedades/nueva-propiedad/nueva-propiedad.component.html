@@ -1,7 +1,7 @@
 <mat-horizontal-stepper #stepper>
       <!-- Individualizacion de la  Propiedad-->
-      <mat-step [stepControl]="firstFormGroup" >
-        <form [formGroup]="firstFormGroup" (ngSubmit) ="onSubmit()" >
+      <mat-step [stepControl]="firstFormGroup" errorMessage="Faltan Datos" >
+        <form [formGroup]="firstFormGroup" (ngSubmit) ="onSubmit()">
           <ng-template matStepLabel>Datos Propiedad</ng-template>
             <mat-form-field class="full-medium">
                 <mat-label>Titulo</mat-label>
@@ -78,10 +78,10 @@
       </mat-step>
 
       <!-- caracteristicas de la propiedad-->
-      <mat-step [stepControl]="secondFormGroup" errorMessage="El campo es requrido">
+      <mat-step [stepControl]="secondFormGroup" errorMessage="Faltan Datos">
         <form [formGroup]="secondFormGroup" [style.width.%]=100>
           <ng-template matStepLabel>Caracteristicas de la Propiedad</ng-template>
-<div >
+            <div >
               <mat-form-field appearance="" >
                 <mat-label>Constructora</mat-label>
                 <input formControlName="building"
@@ -111,7 +111,7 @@
                         matInput >
               </mat-form-field>
 
-</div>
+            </div>
               <mat-list appearance="">
                 <mat-label>Orientacion </mat-label>
                 <mat-radio-button *ngFor="let control of orienta2; index as i" value = "i" style="margin: 6px">
@@ -195,7 +195,7 @@
           <mat-divider></mat-divider>
           <div class="bord">
             <button mat-button matStepperPrevious>Atras</button>
-            <button mat-button matStepperNext>Siguente</button>
+            <button mat-button matStepperNext [disabled]="secondFormGroup.invalid">Siguente</button>
           </div>
         </form><!--  >Segundo formulario del formulario-->
       </mat-step>
@@ -207,7 +207,7 @@
 
 
       <!-- Valorizacion de la propiedad-->
-      <mat-step>
+      <mat-step [stepControl]="thirdFormGroup" errorMessage="Faltan Datos">
         <form [formGroup]="thirdFormGroup">
           <ng-template matStepLabel>Valor de la Propiedad</ng-template>
             <table class="example-full-width" cellspacing="0">
@@ -222,26 +222,26 @@
                   <mat-form-field>
                     <mat-label>Precio UF :</mat-label>
                   <!-- <input [(ngModel)]="valorPrecioUF" (click)="borracampo()" name="Uf" type="text" matInput maxlength="5" (keydown)="getTecla($event, 'uf')"> -->
-                    <input formControlName="valorPrecioUF" (click)="borracampo()"  type="text" matInput maxlength="5" (keydown)="getTecla($event, 'uf')">
+                   <!-- <input formControlName="valorPrecioUF" #uf type="number" matInput maxlength="5" (keydown)="getTecla($event, 'uf')"> -->
+                   <input formControlName="valorPrecioUF" [(ngModel)]="valorPrecioUF" type="number" matInput maxlength="5" (keyup.enter)="getFieldNumber()" (blur)="getFieldNumber()">
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field class="example-full-width">
                     <mat-label>Precio Pesos :</mat-label>
-                    <input formControlName="valorPrecioPeso" (click)="borracampo()" name="Peso" type="text" matInput maxlength="8" (keydown)="getTecla($event, 'peso')">
+                    <input formControlName="valorPrecioPeso" [(ngModel)]="valorPrecioPeso" type="number" matInput maxlength="8" (keyup.enter)="getFieldNumber()" (blur)="getFieldNumber()">
                   </mat-form-field>
                 </td>
               </tr>
             </table>
             <mat-divider></mat-divider>
-            <div>
+            <div fxLayout="row" fxLayoutAlign="start">
               <button mat-button matStepperPrevious>Atras</button>
-              <button mat-button (click)="stepper.reset()">Borrar</button>
+              <button mat-button color="warn" (click)="stepper.reset()">Borrar</button>
             </div>
-            <div>
-              <button class="btn btn-primary btn-block"> Grabar</button>
+            <div fxLayout="row" fxLayoutAlign="end">
+              <button mat-raised-button color="primary" [disabled]="thirdFormGroup.invalid">Grabar</button>
             </div>
         </form>
       </mat-step>
-
     </mat-horizontal-stepper>

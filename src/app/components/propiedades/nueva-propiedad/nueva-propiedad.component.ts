@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder, ControlContainer, FormControlName, AbstractControl } from '@angular/forms';
 import { PropiedadI } from '@shared/models/propiedad.interface';
 import { PropiedadService } from '@components/propiedades/propiedad.service';
@@ -33,6 +33,8 @@ export class NuevaPropiedadComponent implements OnInit {
   @ViewChild ('firstAccordion', { static: true }) firstAccordion: MatAccordion;
   @ViewChild ('secondAccordion', { static: true }) secondAccordion: MatAccordion;
 
+  @ViewChild("uf") nameFieldUF: ElementRef;
+
   private image: any;
   private ubica: any;
   public region: any;
@@ -61,9 +63,9 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
   valorPrecioPeso = '';
-  valorPrecioUF = '';
+  valorPrecioUF = null;
   valorcasilla: false;
-
+  valoruf='';
 
 
   public build_floor = '';
@@ -107,17 +109,17 @@ export class NuevaPropiedadComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       building:   [''],
       old_build:       [''],
-      met_utiles:   ['', Validators.required],
+      met_utiles:   [''],
       build_floor:  ['', Validators.pattern('^[0-9]+$')],
 
-      bedroom:  ['', Validators.required],
-      bath:         ['', Validators.required],
-      build_terrace: ['', Validators.required],
-      store:        ['', Validators.required],
+      bedroom:  [''],
+      bath:         [''],
+      build_terrace: [''],
+      store:        [''],
 
 
-      orienta:      ['', Validators.required],
-      control:      ['', Validators.required],
+      orienta:      [''],
+      control:      [''],
 
 
       description:  ['', Validators.required]
@@ -161,7 +163,7 @@ export class NuevaPropiedadComponent implements OnInit {
                     () => { console.log('fin Economico'); }
         );
 
-        this.getFieldNumber();
+       // this.getFieldNumber();
   }
 
   buildModalidad(){
@@ -215,12 +217,13 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
   getTecla(event: KeyboardEvent, tipo: string) {
-    if ((event.keyCode === 13 && tipo === 'uf')) {
+    if ((event.key === 'Enter' && tipo === 'uf')) {
       console.log (this.valorPrecioUF);
       console.log (this.valorUF.uf.valor);
+      console.log('******************');
       this.valorPrecioPeso = ((+this.valorPrecioUF) * (+this.valorUF.uf.valor)).toLocaleString('es', { maximumFractionDigits: 0 });
     } else {
-      if ((event.keyCode === 13 && tipo === 'peso')) {
+      if ((event.key === 'Enter' && tipo === 'peso')) {
         this.valorPrecioUF = ((+this.valorPrecioPeso) / (+this.valorUF.uf.valor)).toFixed();
         this.valorPrecioPeso = (+this.valorPrecioPeso).toLocaleString('es', { maximumFractionDigits: 0 });
       }
@@ -229,14 +232,49 @@ export class NuevaPropiedadComponent implements OnInit {
   }
 
 
-  getFieldNumber() {
+  editName(event: KeyboardEvent){
+   // this.nameFieldUF.nativeElement.focus();
+   this.thirdFormGroup.get('valorPrecioUF').valueChanges
+   .subscribe(val=>{
+
+
+     console.log(val);
+   });
+
+  }
+
+
+
+
+
+  getFieldNumber(): any{
     //const valor = (this.secondFormGroup.get('build_floor').value);
-    this.secondFormGroup.get('build_floor').valueChanges
+    if(this.thirdFormGroup.get('valorPrecioUF').value === null){
+      return;
+    }
+    const valoruf2 = this.thirdFormGroup.get('valorPrecioUF').value;
+    const valor3 = valoruf2.toString();
+   /* this.thirdFormGroup.get('valorPrecioUF').valueChanges
     .subscribe(val=>{
+      if (this.thirdFormGroup.get('valorPrecioUF').)
+      {  }*/
+    if((valor3.length) > 0 && valor3 != '0'){
+      console.log(valoruf2);
+      if(valoruf2 < 0){
+        this.valorPrecioUF = '';
+        this.valorPrecioPeso = '';
+      }else{
+        this.valorPrecioPeso = ((+this.valorPrecioUF) * (+this.valorUF.uf.valor)).toLocaleString('cl', { maximumFractionDigits: 0 });
+      }
+    } else {
+      console.log('valor es ',valor3);
+      this.valorPrecioUF = '';
+      this.valorPrecioPeso = '';
+    }
 
 
-      console.log(val | SlicePipe '1:2');
-    });
+
+
 
   }
 
