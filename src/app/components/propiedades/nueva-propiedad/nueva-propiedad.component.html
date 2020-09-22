@@ -208,7 +208,7 @@
 
       <!-- Valorizacion de la propiedad-->
       <mat-step [stepControl]="thirdFormGroup" errorMessage="Faltan Datos">
-        <form [formGroup]="thirdFormGroup">
+        <form [formGroup]="thirdFormGroup" (ngSubmit)= "valida()">
           <ng-template matStepLabel>Valor de la Propiedad</ng-template>
             <table class="example-full-width" cellspacing="0">
               <tr>
@@ -223,21 +223,21 @@
                     <mat-label>Precio UF :</mat-label>
                   <!-- <input [(ngModel)]="valorPrecioUF" (click)="borracampo()" name="Uf" type="text" matInput maxlength="5" (keydown)="getTecla($event, 'uf')"> -->
                    <!-- <input formControlName="valorPrecioUF" #uf type="number" matInput maxlength="5" (keydown)="getTecla($event, 'uf')"> -->
-                   <input formControlName="valorPrecioUF" [(ngModel)]="valorPrecioUF" type="number" matInput maxlength="5" (keyup.enter)="getFieldNumber()" (blur)="getFieldNumber()">
+                   <input formControlName="valorPrecioUF" [(ngModel)]="valorPrecioUF" type="number" matInput maxlength="5"  (keyup.enter)="getFieldNumber($event, 'uf')" (blur)="getFieldNumber($event ,'uf')">
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field class="example-full-width">
                     <mat-label>Precio Pesos :</mat-label>
-                    <input formControlName="valorPrecioPeso" [(ngModel)]="valorPrecioPeso" type="number" matInput maxlength="8" (keyup.enter)="getFieldNumber()" (blur)="getFieldNumber()">
-                  </mat-form-field>
+                    <input formControlName="valorPrecioPeso" [(ngModel)]="valorPrecioPeso" type="number" matInput maxlength="8" (keyup.enter)="getFieldNumber($event, 'peso')" (blur)="getFieldNumber($event , 'peso')">
+                 </mat-form-field>
                 </td>
               </tr>
             </table>
             <mat-divider></mat-divider>
             <div fxLayout="row" fxLayoutAlign="start">
               <button mat-button matStepperPrevious>Atras</button>
-              <button mat-button color="warn" (click)="stepper.reset()">Borrar</button>
+             <!-- <button mat-button color="warn" (click)="stepper.reset()">Borrar</button>-->
             </div>
             <div fxLayout="row" fxLayoutAlign="end">
               <button mat-raised-button color="primary" [disabled]="thirdFormGroup.invalid">Grabar</button>

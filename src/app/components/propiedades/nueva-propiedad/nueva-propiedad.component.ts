@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators, FormBuilder, ControlContainer, FormControlName, AbstractControl } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation, ElementRef, HostListener } from '@angular/core';
+import { FormGroup, FormControl, FormArray, Validators, FormBuilder, ControlContainer, FormControlName, AbstractControl, PatternValidator } from '@angular/forms';
 import { PropiedadI } from '@shared/models/propiedad.interface';
 import { PropiedadService } from '@components/propiedades/propiedad.service';
 import { UbicacionesService } from '@shared/services/ubicaciones.service';
@@ -12,8 +12,9 @@ import { MatAccordion} from '@angular/material/expansion';
 import { concatMapTo, map } from 'rxjs/operators';
 import { getTestBed } from '@angular/core/testing';
 import { FormValidations } from './mode.validator';
-import { pipe} from 'rxjs';
-import { SlicePipe } from '@angular/common';
+import { keyValuesToMap } from '@angular/flex-layout/extended/typings/style/style-transforms';
+
+
 
 
 
@@ -34,6 +35,34 @@ export class NuevaPropiedadComponent implements OnInit {
   @ViewChild ('secondAccordion', { static: true }) secondAccordion: MatAccordion;
 
   @ViewChild("uf") nameFieldUF: ElementRef;
+
+
+/*
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    console.log('Codigo del evento ', event.code);
+    if((event.code === 'Enter') && (this.thirdFormGroup.get('valorPrecioUF').value != null) ){
+
+      console.log('en el campo UF - Enter');
+      const x = ((+this.valorPrecioPeso) / (this.valorUF.uf.valor)).toPrecision(3);
+      this.valorPrecioUF = +x;
+
+    }else{
+      if((event.code === 'NumpadEnter') && (this.thirdFormGroup.get('valorPrecioUF').value != null) ){
+        console.log('en el campo UF - NumpadEnter');
+      }
+    }
+
+    }*/
+
+    /*if (!this.isComparisonWindow) {
+      if (event.key === 'ArrowLeft') {
+        this.navigateLeft();
+      } else if (event.key === 'ArrowRight') {
+        this.navigateRight();
+      }*/
+
+
 
   private image: any;
   private ubica: any;
@@ -79,10 +108,10 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
 
-
   constructor(  private propiedadSvc: PropiedadService,
                 public UbicacionSvc: UbicacionesService,
                 private _formBuilder: FormBuilder,
+
 
                 ) {}
 
@@ -107,15 +136,15 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
     this.secondFormGroup = this._formBuilder.group({
-      building:   [''],
-      old_build:       [''],
-      met_utiles:   [''],
-      build_floor:  ['', Validators.pattern('^[0-9]+$')],
+      building:       [''],
+      old_build:      [''],
+      met_utiles:     [''],
+      build_floor:    ['', Validators.pattern('^[0-9]+$')],
 
-      bedroom:  [''],
-      bath:         [''],
-      build_terrace: [''],
-      store:        [''],
+      bedroom:        [''],
+      bath:           [''],
+      build_terrace:  [''],
+      store:          [''],
 
 
       orienta:      [''],
@@ -128,7 +157,6 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
     this.thirdFormGroup = this._formBuilder.group({
-      secondCtrl:       ['', Validators.required],
       valorPrecioUF:    ['', Validators.required],
       valorPrecioPeso:  ['', Validators.required]
     });
@@ -247,38 +275,71 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
 
-  getFieldNumber(): any{
-    //const valor = (this.secondFormGroup.get('build_floor').value);
-    if(this.thirdFormGroup.get('valorPrecioUF').value === null){
-      return;
-    }
-    const valoruf2 = this.thirdFormGroup.get('valorPrecioUF').value;
-    const valor3 = valoruf2.toString();
-   /* this.thirdFormGroup.get('valorPrecioUF').valueChanges
-    .subscribe(val=>{
-      if (this.thirdFormGroup.get('valorPrecioUF').)
-      {  }*/
-    if((valor3.length) > 0 && valor3 != '0'){
-      console.log(valoruf2);
-      if(valoruf2 < 0){
-        this.valorPrecioUF = '';
-        this.valorPrecioPeso = '';
-      }else{
-        this.valorPrecioPeso = ((+this.valorPrecioUF) * (+this.valorUF.uf.valor)).toLocaleString('cl', { maximumFractionDigits: 0 });
+  getFieldNumber(evt:KeyboardEvent , tipo: string): any{
+      if(tipo === 'uf'){
+          if(this.thirdFormGroup.get('valorPrecioUF').value === null){
+            this.valorPrecioPeso = null;
+            return;
+          }
+          const valoruf2 = this.thirdFormGroup.get('valorPrecioUF').value;
+          const valor3 = valoruf2.toString();
+          if((valor3.length) > 0 && valor3 != '0'){
+            if ((evt.code === 'Enter' )) {
+              console.log('Valor luego de presionar enter: ',valor3);
+              return;
+            }
+            else{
+              if(valoruf2 < 0){
+                this.valorPrecioUF = null;
+                this.valorPrecioPeso = null;
+              }else{
+                this.valorPrecioPeso = (((+this.valorPrecioUF) * (+this.valorUF.uf.valor)).toFixed());
+              }
+            }
+          } else {
+            this.valorPrecioUF = null;
+            this.valorPrecioPeso = null;
+          }
+          if(evt.code === 'Enter' || evt.code === 'NumpadEnter' ){
+            console.log('se ha presionado enter o enterpad');
+          }
+          return;
       }
-    } else {
-      console.log('valor es ',valor3);
-      this.valorPrecioUF = '';
-      this.valorPrecioPeso = '';
-    }
+      if(tipo === 'peso'){
+        console.log(evt.code);
+        if(this.thirdFormGroup.get('valorPrecioPeso').value === null){
+          this.valorPrecioUF = null;
+          return;
+        }
+        const valorpeso = this.thirdFormGroup.get('valorPrecioPeso').value;
+        const valor = valorpeso.toString();
+        if((valor.length) > 0 && valor != '0'){
+          console.log('presiono enter ', valorpeso);
+          console.log('codigo enter ', evt.code);
+          if(evt.code === 'Enter' || evt.code === 'NumpadEnter' ){
+            console.log('se ha presionado enter o enterpad');
 
-
-
-
-
+          }
+          if(valorpeso < 1){
+            this.valorPrecioUF = null;
+            this.valorPrecioPeso = null;
+          }else{
+            const x = ((+this.valorPrecioPeso) / (this.valorUF.uf.valor)).toPrecision(3);
+            this.valorPrecioUF = +x;
+            return;
+          }
+        } else {
+          this.valorPrecioUF = '';
+          this.valorPrecioPeso = '';
+        }
+        return;
+      }
   }
 
 
+  valida(){
+    console.log('validando el formulario');
+  }
 
 
 
