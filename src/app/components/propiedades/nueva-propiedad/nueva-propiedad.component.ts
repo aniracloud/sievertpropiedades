@@ -18,6 +18,7 @@ import { keyValuesToMap } from '@angular/flex-layout/extended/typings/style/styl
 
 
 
+
 @Component({
   selector: 'app-nueva-propiedad',
   templateUrl: './nueva-propiedad.component.html',
@@ -110,9 +111,7 @@ export class NuevaPropiedadComponent implements OnInit {
 
   constructor(  private propiedadSvc: PropiedadService,
                 public UbicacionSvc: UbicacionesService,
-                private _formBuilder: FormBuilder,
-
-
+                private _formBuilder: FormBuilder
                 ) {}
 
 
@@ -196,7 +195,7 @@ export class NuevaPropiedadComponent implements OnInit {
 
   buildModalidad(){
     const values = this.modalidad.map(value => new FormControl(false));
-    console.log(values[1]);
+    //console.log(values[1]);
     return this._formBuilder.array(values,FormValidations.requiredMinCheckbox(1));
     /* this._formBulder.array([
       new FormControl(false),
@@ -318,7 +317,6 @@ export class NuevaPropiedadComponent implements OnInit {
           console.log('codigo enter ', evt.code);
           if(evt.code === 'Enter' || evt.code === 'NumpadEnter' ){
             console.log('se ha presionado enter o enterpad');
-
           }
           if(valorpeso < 1){
             this.valorPrecioUF = null;
@@ -340,10 +338,6 @@ export class NuevaPropiedadComponent implements OnInit {
   valida(){
     console.log('validando el formulario');
   }
-
-
-
-
 
 
 

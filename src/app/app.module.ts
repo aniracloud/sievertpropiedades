@@ -33,9 +33,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
 
-import { ThousandsPipe } from './shared/pipes/thousandsPipe';
 
-
+import { UfPipe } from './shared/pipes/thousandsPipe';
 
 
 
@@ -50,8 +49,7 @@ import { ThousandsPipe } from './shared/pipes/thousandsPipe';
     ModalComponent,
     EditPropiedadComponent,
     DetailsPropiedadComponent,
-    ThousandsPipe
-
+    UfPipe
   ],
   imports: [
     BrowserModule,

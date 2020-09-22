@@ -213,16 +213,14 @@
             <table class="example-full-width" cellspacing="0">
               <tr>
                 <td>
-                  <mat-label class="titulo">Valor UF hoy : </mat-label>
-                  <span *ngIf="valorUF">{{ valorUF.uf.valor }}</span>
+                  <mat-label class="titulo">Valor UF hoy : $ </mat-label>
+                  <span *ngIf="valorUF">{{valorUF.uf.valor | ufPipe  }}</span>
                 </td>
               </tr>
               <tr>
                 <td>
                   <mat-form-field>
                     <mat-label>Precio UF :</mat-label>
-                  <!-- <input [(ngModel)]="valorPrecioUF" (click)="borracampo()" name="Uf" type="text" matInput maxlength="5" (keydown)="getTecla($event, 'uf')"> -->
-                   <!-- <input formControlName="valorPrecioUF" #uf type="number" matInput maxlength="5" (keydown)="getTecla($event, 'uf')"> -->
                    <input formControlName="valorPrecioUF" [(ngModel)]="valorPrecioUF" type="number" matInput maxlength="5"  (keyup.enter)="getFieldNumber($event, 'uf')" (blur)="getFieldNumber($event ,'uf')">
                   </mat-form-field>
                 </td>
@@ -235,13 +233,20 @@
               </tr>
             </table>
             <mat-divider></mat-divider>
-            <div fxLayout="row" fxLayoutAlign="start">
-              <button mat-button matStepperPrevious>Atras</button>
+
+
              <!-- <button mat-button color="warn" (click)="stepper.reset()">Borrar</button>-->
-            </div>
-            <div fxLayout="row" fxLayoutAlign="end">
-              <button mat-raised-button color="primary" [disabled]="thirdFormGroup.invalid">Grabar</button>
+
+            <div fxLayout="row">
+              <div fxLayoutAlign="start start">
+                <button mat-button matStepperPrevious>Atras</button>
+              </div>
+              <div fxLayoutAlign="center start">
+                <button mat-raised-button color="primary" [disabled]="thirdFormGroup.invalid">Grabar</button>
+              </div>
             </div>
         </form>
       </mat-step>
     </mat-horizontal-stepper>
+   <!--<button mat-button matStepperPrevious>Atras</button>-->
+
