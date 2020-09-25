@@ -1,252 +1,362 @@
 <mat-horizontal-stepper #stepper>
-      <!-- Individualizacion de la  Propiedad-->
-      <mat-step [stepControl]="firstFormGroup" errorMessage="Faltan Datos" >
-        <form [formGroup]="firstFormGroup" (ngSubmit) ="onSubmit()">
-          <ng-template matStepLabel>Datos Propiedad</ng-template>
-            <mat-form-field class="full-medium">
-                <mat-label>Titulo</mat-label>
-                <input matInput formControlName ="titulo"  placeholder="5 caracteres minimo" required >
+  <!-- Individualizacion de la  Propiedad-->
+  <mat-step [stepControl]="firstFormGroup" errorMessage="Faltan Datos">
+    <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit()">
+      <ng-template matStepLabel>Datos Propiedad</ng-template>
+      <mat-form-field class="full-medium">
+        <mat-label>Titulo</mat-label>
+        <input
+          matInput
+          formControlName="titulo"
+          placeholder="5 caracteres minimo"
+          required
+        />
+      </mat-form-field>
+      <p>
+        <mat-form-field class="full-medium">
+          <mat-label>Direccion</mat-label>
+          <input
+            matInput
+            formControlName="direccion"
+            minlength="5"
+            maxlength="30"
+            required
+          />
+        </mat-form-field>
+      </p>
+      <table class="full-width">
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Region</mat-label>
+              <mat-select formControlName="regionSelected" Name="regionchile">
+                <mat-option
+                  *ngFor="let regionchile of regionesChile"
+                  [value]="regionchile.comunas"
+                  (click)="getComunaSelectedValue(regionchile.comunas)"
+                >
+                  {{ regionchile.region }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <p>
-              <mat-form-field class="full-medium">
-                <mat-label>Direccion</mat-label>
-                <input matInput formControlName ="direccion" minlength="5" maxlength="30" required>
-              </mat-form-field>
-            </p>
-            <table class="full-width">
-              <tr>
-                <td>
-                  <mat-form-field>
-                    <mat-label>Region</mat-label>
-                    <mat-select formControlName="regionSelected" Name="regionchile">
-                      <mat-option *ngFor= "let regionchile of regionesChile"  [value]="regionchile.comunas"  (click)="getComunaSelectedValue(regionchile.comunas)">
-                        {{ regionchile.region }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field>
-                    <mat-label>Comuna</mat-label>
-                    <mat-select formControlName="comunaSelected" Name="comuna" aria-required="regionSelected">
-                      <mat-option *ngFor="let comuna of comunasChile" [value]="comuna">
-                        {{ comuna }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field>
-                    <mat-label>Codigo Postal</mat-label>
-                    <input matInput type="tel" formControlName="codigo" #postalCode maxlength="7" name="codigo" (keydown)="UbicacionSvc.check($event)">
-                    <mat-hint align="end">{{postalCode.value.length}} / 8</mat-hint>
-                  </mat-form-field>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <mat-form-field>
-                      <mat-label>Tipo</mat-label>
-                      <mat-select formControlName="typeSelected" Name="typeSelected">
-                        <mat-option *ngFor="let tipos of tipoPropiedades" [value]="tipos.propiedad">
-                            {{ tipos.propiedad }}
-                        </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                <span>Modalidad</span>
-                    <div formArrayName="modalidad" *ngFor="let item of getModalidadControl(); let i= index">
-                        <label class="example-section">
-                          <mat-checkbox  [formControlName]="i">{{ modalidad[i] }}</mat-checkbox>
-                          <!--<input type="checkbox" [formControlName]="i"> {{ modalidad[i] }}-->
-                        </label>
-                    </div>
-
-                 <!-- <pre>{{ modalidad | json }}</pre>-->
-
-                </td>
-              </tr>
-            </table>
-            <mat-divider></mat-divider>
-            <div>
-                <button mat-button matStepperNext [disabled]="firstFormGroup.invalid">Siguente</button>
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-label>Comuna</mat-label>
+              <mat-select
+                formControlName="comunaSelected"
+                Name="comuna"
+                aria-required="regionSelected"
+              >
+                <mat-option
+                  *ngFor="let comuna of comunasChile"
+                  [value]="comuna"
+                >
+                  {{ comuna }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field>
+              <mat-label>Codigo Postal</mat-label>
+              <input
+                matInput
+                type="tel"
+                formControlName="codigo"
+                #postalCode
+                maxlength="7"
+                name="codigo"
+                (keydown)="UbicacionSvc.check($event)"
+              />
+              <mat-hint align="end">{{ postalCode.value.length }} / 8</mat-hint>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Tipo</mat-label>
+              <mat-select formControlName="typeSelected" Name="typeSelected">
+                <mat-option
+                  *ngFor="let tipos of tipoPropiedades"
+                  [value]="tipos.propiedad"
+                >
+                  {{ tipos.propiedad }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <span>Modalidad</span>
+            <div
+              formArrayName="modalidad"
+              *ngFor="let item of getModalidadControl(); let i = index"
+            >
+              <label class="example-section">
+                <mat-checkbox [formControlName]="i">{{
+                  modalidad[i]
+                }}</mat-checkbox>
+                <!--<input type="checkbox" [formControlName]="i"> {{ modalidad[i] }}-->
+              </label>
             </div>
 
+            <!-- <pre>{{ modalidad | json }}</pre>-->
+          </td>
+        </tr>
+      </table>
+      <mat-divider></mat-divider>
+      <div>
+        <button mat-button matStepperNext [disabled]="firstFormGroup.invalid">
+          Siguente
+        </button>
+      </div>
+    </form>
+  </mat-step>
 
-        </form>
-      </mat-step>
+  <!-- caracteristicas de la propiedad-->
+  <mat-step [stepControl]="secondFormGroup" errorMessage="Faltan Datos">
+    <form [formGroup]="secondFormGroup" [style.width.%]="100">
+      <ng-template matStepLabel>Caracteristicas de la Propiedad</ng-template>
+      <div>
+        <mat-form-field appearance="">
+          <mat-label>Constructora</mat-label>
+          <input
+            formControlName="building"
+            name="Constr"
+            type="text"
+            matInput
+            maxlength="20"
+          />
+        </mat-form-field>
 
-      <!-- caracteristicas de la propiedad-->
-      <mat-step [stepControl]="secondFormGroup" errorMessage="Faltan Datos">
-        <form [formGroup]="secondFormGroup" [style.width.%]=100>
-          <ng-template matStepLabel>Caracteristicas de la Propiedad</ng-template>
-            <div >
-              <mat-form-field appearance="" >
-                <mat-label>Constructora</mat-label>
-                <input formControlName="building"
-                        name="Constr" type="text"
-                        matInput maxlength="20">
-              </mat-form-field>
+        <mat-form-field color="accent" appearance="" [style.width.px]="120">
+          <mat-label>Antiguedad</mat-label>
+          <input
+            formControlName="old_build"
+            matInput
+            [matDatepicker]="picker1"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
 
-              <mat-form-field color="accent" appearance="" [style.width.px]=120>
-                <mat-label>Antiguedad</mat-label>
-                <input formControlName="old_build" matInput [matDatepicker]="picker1">
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-              </mat-form-field>
+        <mat-form-field appearance="" [style.width.px]="100">
+          <mat-label>Metros Utiles</mat-label>
+          <input
+            formControlName="met_utiles"
+            name="met_utiles"
+            type="text"
+            matInput
+            maxlength="4"
+            (keydown)="getTecla($event, 'met_utiles')"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="" [style.width.px]="50">
+          <mat-label>Piso</mat-label>
+          <input
+            formControlName="build_floor"
+            name="build_floor"
+            type="number"
+            matInput
+          />
+        </mat-form-field>
+      </div>
+      <mat-list appearance="">
+        <mat-label>Orientacion </mat-label>
+        <mat-radio-button
+          *ngFor="let control of orienta2; index as i"
+          value="i"
+          style="margin: 6px"
+        >
+          <span (change)="getItemSelectedValue()" id="inlineCheckbox{{ i }}">{{
+            control
+          }}</span>
+        </mat-radio-button>
+      </mat-list>
+
+      <mat-form-field appearance="" [style.width.px]="100">
+        <mat-label>Dormitorios</mat-label>
+        <input
+          formControlName="bedroom"
+          name="bedroom"
+          type="number"
+          matInput
+          min="0"
+          maxlength="1"
+          (keydown)="getTecla($event, 'bedroom')"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="" [style.width.px]="50">
+        <mat-label>Baños</mat-label>
+        <input
+          formControlName="bath"
+          name="bath"
+          type="number"
+          matInput
+          maxlength="1"
+          min="0"
+          (keydown)="getTecla($event, 'bath')"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="" [style.width.px]="70">
+        <mat-label>Terraza</mat-label>
+        <input
+          formControlName="build_terrace"
+          name="build_terrace"
+          type="number"
+          matInput
+          maxlength="3"
+          min="0"
+          (keydown)="getTecla($event, 'build_terrace')"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="" [style.width.px]="70">
+        <mat-label>Bodega</mat-label>
+        <input
+          formControlName="store"
+          name="store"
+          type="number"
+          matInput
+          maxlength="1"
+          min="0"
+          (keydown)="getTecla($event, 'store')"
+        />
+      </mat-form-field>
+
+      <mat-accordion
+        #firstAccordion="matAccordion"
+        class="example-headers-align"
+        multi
+      >
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Ambientes </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-selection-list #shoes>
+            <mat-list-option *ngFor="let other of others_build">
+              {{ other }}
+            </mat-list-option>
+          </mat-selection-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion
+        #secondAccordion="matAccordion"
+        class="example-headers-align"
+        multi
+      >
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Instalciones Edificio </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-selection-list #shoes>
+            <mat-list-option *ngFor="let othersInstall of othersInstallBuild">
+              {{ othersInstall }}
+            </mat-list-option>
+          </mat-selection-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <mat-form-field
+        hintLabel="Max 300 caracteres"
+        appearance="outline"
+        class="classdescription"
+      >
+        <mat-label>Descripcion</mat-label>
+        <textarea
+          matInput
+          formControlName="description"
+          #labeldescription
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="5"
+          cdkAutosizeMaxRows="10"
+          maxlength="300"
+        >
+        </textarea>
+        <mat-hint align="end"
+          >{{ labeldescription.value?.length || 0 }}/300</mat-hint
+        >
+      </mat-form-field>
+
+      <mat-divider></mat-divider>
+      <div class="bord">
+        <button mat-button matStepperPrevious>Atras</button>
+        <button mat-button matStepperNext [disabled]="secondFormGroup.invalid">
+          Siguente
+        </button>
+      </div>
+    </form>
+    <!--  >Segundo formulario del formulario-->
+  </mat-step>
+
+  <!-- Valorizacion de la propiedad-->
+  <mat-step [stepControl]="thirdFormGroup" errorMessage="Faltan Datos">
+    <form [formGroup]="thirdFormGroup" (ngSubmit)="valida()">
+      <ng-template matStepLabel>Valor de la Propiedad</ng-template>
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-label class="titulo">Valor UF hoy : $ </mat-label>
+            <span *ngIf="valorUF">{{ valorUF.uf.valor | ufPipe }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Precio UF :</mat-label>
+              <input
+                formControlName="valorPrecioUF"
+                [(ngModel)]="valorPrecioUF"
+                type="number"
+                matInput
+                maxlength="5"
+                min="0"
+                (keyup.enter)="getFieldNumber($event, 'uf')"
+                (blur)="getFieldNumber($event, 'uf')"
+              />
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Precio Pesos :</mat-label>
+              <input
+                formControlName="valorPrecioPeso"
+                [(ngModel)]="valorPrecioPeso"
+                type="number"
+                matInput
+                maxlength="8"
+                min="0"
+                (keyup.enter)="getFieldNumber($event, 'peso')"
+                (blur)="getFieldNumber($event, 'peso')"
+              />
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+      <mat-divider></mat-divider>
+
+      <!-- <button mat-button color="warn" (click)="stepper.reset()">Borrar</button>-->
+
+      <div fxShow="true" fxHide.lt-md fxFlex fxLayout>
+        <div fxLayoutAlign="start start">
+          <button mat-button matStepperPrevious>Atras</button>
+        </div>
+        <div fxFlex fxLayoutAlign="flex-end center">
+          <button fxShow="true" mat-raised-button color="primary" [disabled]="thirdFormGroup.invalid">
+            Grabar
+          </button>
+        </div>
+      </div>
 
 
-              <mat-form-field appearance="" [style.width.px]=100>
-                <mat-label>Metros Utiles</mat-label>
-                <input formControlName="met_utiles"
-                        name="met_utiles" type="text"
-                        matInput maxlength="4" (keydown)="getTecla($event, 'met_utiles')">
-              </mat-form-field>
-
-              <mat-form-field appearance=""[style.width.px]=50>
-                <mat-label>Piso</mat-label>
-                <input formControlName ="build_floor"
-                        name="build_floor" type="number"
-                        matInput >
-              </mat-form-field>
-
-            </div>
-              <mat-list appearance="">
-                <mat-label>Orientacion </mat-label>
-                <mat-radio-button *ngFor="let control of orienta2; index as i" value = "i" style="margin: 6px">
-                  <span (change)="getItemSelectedValue()" id="inlineCheckbox{{i}}">{{ control }}</span>
-                </mat-radio-button>
-              </mat-list>
-
-              <mat-form-field appearance="" [style.width.px]=100>
-                <mat-label>Dormitorios</mat-label>
-                <input  formControlName="bedroom"
-                        name="bedroom" type="number"
-                        matInput maxlength="1" (keydown)="getTecla($event, 'bedroom')">
-              </mat-form-field>
-
-              <mat-form-field appearance="" [style.width.px]=50>
-                <mat-label>Baños</mat-label>
-                <input  formControlName="bath"
-                        name="bath" type="number"
-                        matInput maxlength="1" (keydown)="getTecla($event, 'bath')">
-              </mat-form-field>
-
-
-              <mat-form-field appearance="" [style.width.px]=70>
-                <mat-label>Terraza</mat-label>
-                <input  formControlName="build_terrace"
-                        name="build_terrace" type="number"
-                        matInput maxlength="3" (keydown)="getTecla($event, 'build_terrace')">
-              </mat-form-field>
-
-
-              <mat-form-field appearance="" [style.width.px]=70>
-                <mat-label>Bodega</mat-label>
-                <input  formControlName="store"
-                        name="store" type="number"
-                        matInput maxlength="1" (keydown)="getTecla($event, 'store')">
-              </mat-form-field>
-
-
-              <mat-accordion #firstAccordion="matAccordion" class="example-headers-align" multi>
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      Ambientes
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                    <mat-selection-list #shoes>
-                      <mat-list-option *ngFor="let other of others_build">
-                        {{other}}
-                      </mat-list-option>
-                    </mat-selection-list>
-                </mat-expansion-panel>
-              </mat-accordion>
-              <mat-accordion #secondAccordion="matAccordion" class="example-headers-align" multi>
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      Instalciones Edificio
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                    <mat-selection-list #shoes>
-                      <mat-list-option *ngFor="let othersInstall of othersInstallBuild">
-                        {{othersInstall}}
-                      </mat-list-option>
-                    </mat-selection-list>
-                </mat-expansion-panel>
-              </mat-accordion>
-
-              <mat-form-field hintLabel="Max 300 caracteres" appearance="outline" class="classdescription">
-                <mat-label>Descripcion</mat-label>
-                <textarea
-                    matInput formControlName="description"
-                    #labeldescription
-                    cdkTextareaAutosize
-                    cdkAutosizeMinRows="5"
-                    cdkAutosizeMaxRows="10"
-                    maxlength="300">
-                </textarea>
-                <mat-hint align="end">{{labeldescription.value?.length || 0}}/300</mat-hint>
-             </mat-form-field>
-
-          <mat-divider></mat-divider>
-          <div class="bord">
-            <button mat-button matStepperPrevious>Atras</button>
-            <button mat-button matStepperNext [disabled]="secondFormGroup.invalid">Siguente</button>
-          </div>
-        </form><!--  >Segundo formulario del formulario-->
-      </mat-step>
-
-
-
-
-
-
-
-      <!-- Valorizacion de la propiedad-->
-      <mat-step [stepControl]="thirdFormGroup" errorMessage="Faltan Datos">
-        <form [formGroup]="thirdFormGroup" (ngSubmit)= "valida()">
-          <ng-template matStepLabel>Valor de la Propiedad</ng-template>
-            <table class="example-full-width" cellspacing="0">
-              <tr>
-                <td>
-                  <mat-label class="titulo">Valor UF hoy : $ </mat-label>
-                  <span *ngIf="valorUF">{{valorUF.uf.valor | ufPipe  }}</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <mat-form-field>
-                    <mat-label>Precio UF :</mat-label>
-                   <input formControlName="valorPrecioUF" [(ngModel)]="valorPrecioUF" type="number" matInput maxlength="5"  (keyup.enter)="getFieldNumber($event, 'uf')" (blur)="getFieldNumber($event ,'uf')">
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Precio Pesos :</mat-label>
-                    <input formControlName="valorPrecioPeso" [(ngModel)]="valorPrecioPeso" type="number" matInput maxlength="8" (keyup.enter)="getFieldNumber($event, 'peso')" (blur)="getFieldNumber($event , 'peso')">
-                 </mat-form-field>
-                </td>
-              </tr>
-            </table>
-            <mat-divider></mat-divider>
-
-
-             <!-- <button mat-button color="warn" (click)="stepper.reset()">Borrar</button>-->
-
-            <div fxLayout="row">
-              <div fxLayoutAlign="start start">
-                <button mat-button matStepperPrevious>Atras</button>
-              </div>
-              <div fxLayoutAlign="center start">
-                <button mat-raised-button color="primary" [disabled]="thirdFormGroup.invalid">Grabar</button>
-              </div>
-            </div>
-        </form>
-      </mat-step>
-    </mat-horizontal-stepper>
-   <!--<button mat-button matStepperPrevious>Atras</button>-->
-
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>
+<!--<button mat-button matStepperPrevious>Atras</button>-->

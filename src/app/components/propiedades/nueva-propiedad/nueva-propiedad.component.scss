@@ -118,3 +118,9 @@ ul {
 
 /***************************************************************************************/
 
+.customFlexContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 0%;
+  align-items: center;
+}
