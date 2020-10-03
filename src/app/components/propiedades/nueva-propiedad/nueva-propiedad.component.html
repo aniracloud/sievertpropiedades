@@ -304,7 +304,7 @@
         <tr>
           <td>
             <mat-label class="titulo">Valor UF hoy : $ </mat-label>
-            <span *ngIf="valorUF">{{ valorUF.uf.valor | ufPipe }}</span>
+            <span *ngIf="valorUF">{{ valorUF.uf.valor | pesoPipe }}</span>
           </td>
         </tr>
         <tr>
@@ -317,25 +317,23 @@
                 type="number"
                 matInput
                 maxlength="5"
+                max="99999"
                 min="0"
                 (keyup.enter)="getFieldNumber($event, 'uf')"
-                (blur)="getFieldNumber($event, 'uf')"
-              />
+                (blur)="getFieldNumber($event, 'uf')"/>
             </mat-form-field>
           </td>
           <td>
             <mat-form-field class="example-full-width">
               <mat-label>Precio Pesos :</mat-label>
               <input
-                formControlName="valorPrecioPeso"
-                [(ngModel)]="valorPrecioPeso"
+                formControlName="valorPrecioPeso" [(ngModel)]="valorPrecioPeso"
                 type="number"
                 matInput
-                maxlength="8"
+                max="999.999.999"
                 min="0"
                 (keyup.enter)="getFieldNumber($event, 'peso')"
-                (blur)="getFieldNumber($event, 'peso')"
-              />
+                (blur)="getFieldNumber($event, 'peso')"/>
             </mat-form-field>
           </td>
         </tr>
@@ -354,6 +352,7 @@
           </button>
         </div>
       </div>
+<app-upload-image></app-upload-image>
 
 
     </form>

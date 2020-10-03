@@ -1,3 +1,5 @@
+
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 
@@ -34,7 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 
-import { UfPipe } from './shared/pipes/thousandsPipe';
+import { PesoPipe } from './shared/pipes/thousandsPipe';
 
 
 
@@ -49,7 +51,7 @@ import { UfPipe } from './shared/pipes/thousandsPipe';
     ModalComponent,
     EditPropiedadComponent,
     DetailsPropiedadComponent,
-    UfPipe
+    PesoPipe
   ],
   imports: [
     BrowserModule,

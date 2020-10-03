@@ -5,19 +5,22 @@ import {
   ViewChild,
   ViewEncapsulation,
   ElementRef,
-  HostListener,
+  HostListener
 } from "@angular/core";
+
+
+
 import {
   FormGroup,
   FormControl,
   FormArray,
   Validators,
-  FormBuilder,
-  ControlContainer,
-  FormControlName,
-  AbstractControl,
-  PatternValidator,
+  FormBuilder
 } from "@angular/forms";
+
+
+
+
 import { PropiedadI } from "@shared/models/propiedad.interface";
 import { PropiedadService } from "@components/propiedades/propiedad.service";
 import { UbicacionesService } from "@shared/services/ubicaciones.service";
@@ -27,10 +30,18 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 
 import { MatAccordion } from "@angular/material/expansion";
-import { concatMapTo, map } from "rxjs/operators";
-import { getTestBed } from "@angular/core/testing";
+
 import { FormValidations } from "./mode.validator";
-import { keyValuesToMap } from "@angular/flex-layout/extended/typings/style/style-transforms";
+
+
+import { PesoPipe } from '../../../shared/pipes/thousandsPipe';
+
+
+import { TrasformaService } from '@shared/services/trasforma.service';
+
+
+
+
 
 @Component({
   selector: "app-nueva-propiedad",
@@ -78,6 +89,7 @@ export class NuevaPropiedadComponent implements OnInit {
   private ubica: any;
   public region: any;
 
+
   modalidad = ["Arriendo", "Venta"];
 
   calefa2: Array<string> = [
@@ -123,7 +135,7 @@ export class NuevaPropiedadComponent implements OnInit {
   comunaSelected: string;
   tipoSelected: string;
 
-  valorPrecioPeso = "";
+  valorPrecioPeso = '';
   valorPrecioUF = null;
   valorcasilla: false;
   valoruf = "";
@@ -132,6 +144,7 @@ export class NuevaPropiedadComponent implements OnInit {
 
   public valorUF: any;
 
+
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -139,10 +152,14 @@ export class NuevaPropiedadComponent implements OnInit {
   constructor(
     private propiedadSvc: PropiedadService,
     public UbicacionSvc: UbicacionesService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    public  trasformaSvc: TrasformaService
   ) {}
 
+
   ngOnInit() {
+
+
     this.firstFormGroup = this._formBuilder.group({
       titulo: [
         "",
@@ -220,7 +237,12 @@ export class NuevaPropiedadComponent implements OnInit {
     );
 
     // this.getFieldNumber();
+
+
+
   }
+
+
 
   buildModalidad() {
     const values = this.modalidad.map((value) => new FormControl(false));
@@ -294,7 +316,7 @@ export class NuevaPropiedadComponent implements OnInit {
   getFieldNumber(evt: KeyboardEvent, tipo: string): any {
     if (tipo === "uf") {
       if (this.thirdFormGroup.get("valorPrecioUF").value === null) {
-        this.valorPrecioPeso = null;
+        this.valorPrecioPeso = '';
         return;
       }
       const valoruf2 = this.thirdFormGroup.get("valorPrecioUF").value;
@@ -305,8 +327,8 @@ export class NuevaPropiedadComponent implements OnInit {
           return;
         } else {
           if (valoruf2 < 0) {
-            this.valorPrecioUF = null;
-            this.valorPrecioPeso = null;
+            this.valorPrecioUF = '';
+            this.valorPrecioPeso = '';
           } else {
             this.valorPrecioPeso = (
               +this.valorPrecioUF * +this.valorUF.uf.valor
@@ -314,8 +336,8 @@ export class NuevaPropiedadComponent implements OnInit {
           }
         }
       } else {
-        this.valorPrecioUF = null;
-        this.valorPrecioPeso = null;
+        this.valorPrecioUF = '';
+        this.valorPrecioPeso = '';
       }
       if (evt.code === "Enter" || evt.code === "NumpadEnter") {
         console.log("se ha presionado enter o enterpad");
@@ -325,7 +347,7 @@ export class NuevaPropiedadComponent implements OnInit {
     if (tipo === "peso") {
       console.log(evt.code);
       if (this.thirdFormGroup.get("valorPrecioPeso").value === null) {
-        this.valorPrecioUF = null;
+        this.valorPrecioUF = '';
         return;
       }
       const valorpeso = this.thirdFormGroup.get("valorPrecioPeso").value;
@@ -335,15 +357,22 @@ export class NuevaPropiedadComponent implements OnInit {
         console.log("codigo enter ", evt.code);
         if (evt.code === "Enter" || evt.code === "NumpadEnter") {
           console.log("se ha presionado enter o enterpad");
+
+         // const xxx = +this.valorPrecioPeso;
+         // const options1 = { style: 'currency', currency: 'USD' };
+         // const numberFormat1 = new Intl.NumberFormat('es-CL');
+          //console.log(xxx.toLocaleString('es-CL'));
+        //   this.valorPrecioPeso = numberFormat1.format(xxx);
+          //this.valorPrecioPeso = (xxx.toLocaleString('es-CL'));
+
         }
         if (valorpeso < 1) {
-          this.valorPrecioUF = null;
-          this.valorPrecioPeso = null;
+          this.valorPrecioUF = '';
+          this.valorPrecioPeso = '';
         } else {
-          const x = (+this.valorPrecioPeso / this.valorUF.uf.valor).toPrecision(
-            3
-          );
+          const x = (+this.valorPrecioPeso / this.valorUF.uf.valor).toPrecision(3);
           this.valorPrecioUF = +x;
+
           return;
         }
       } else {
@@ -364,7 +393,7 @@ export class NuevaPropiedadComponent implements OnInit {
     this.valorPrecioUF = null;
   }
 
-  activa() {}
+
 
   getItemSelectedValue() {
     this.ItemSelectedValues = [];
