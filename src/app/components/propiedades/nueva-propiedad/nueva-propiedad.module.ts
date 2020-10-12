@@ -1,9 +1,9 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { UploadImageComponent } from '@app/shared/upload-image/upload-image.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 
 
 @NgModule({
@@ -12,8 +12,7 @@ import { UploadImageComponent } from '@app/shared/upload-image/upload-image.comp
     ReactiveFormsModule,
     FormsModule,
     FlexLayoutModule,
-    CommonModule,
-    UploadImageComponent
+    CommonModule
     ],
   exports: [],
 })

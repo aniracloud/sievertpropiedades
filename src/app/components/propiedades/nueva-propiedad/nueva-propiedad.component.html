@@ -31,11 +31,11 @@
               <mat-label>Region</mat-label>
               <mat-select formControlName="regionSelected" Name="regionchile">
                 <mat-option
-                  *ngFor="let regionchile of regionesChile"
-                  [value]="regionchile.comunas"
-                  (click)="getComunaSelectedValue(regionchile.comunas)"
+                  *ngFor="let regionchile of regionesChile; let i = index"
+                  [value]="regionchile"
+                  (click)="getRegionSelectedValue(regionchile.comunas, regionchile)"
                 >
-                  {{ regionchile.region }}
+                  {{ regionchile.region}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -51,6 +51,7 @@
                 <mat-option
                   *ngFor="let comuna of comunasChile"
                   [value]="comuna"
+                  (click)="getComunaSelectedValue(comuna)"
                 >
                   {{ comuna }}
                 </mat-option>
@@ -62,10 +63,12 @@
               <mat-label>Codigo Postal</mat-label>
               <input
                 matInput
-                type="tel"
-                formControlName="codigo"
+                type="number"
+                formControlName="codigoPostal"
                 #postalCode
                 maxlength="7"
+                min = "1"
+                max = "9999999"
                 name="codigo"
                 (keydown)="UbicacionSvc.check($event)"
               />
@@ -76,8 +79,8 @@
         <tr>
           <td>
             <mat-form-field>
-              <mat-label>Tipo</mat-label>
-              <mat-select formControlName="typeSelected" Name="typeSelected">
+              <mat-label>Tipo de Propiedad</mat-label>
+              <mat-select formControlName="tipoPropiedad" Name="tipoPropiedad">
                 <mat-option
                   *ngFor="let tipos of tipoPropiedades"
                   [value]="tipos.propiedad"
@@ -92,11 +95,10 @@
             <div
               formArrayName="modalidad"
               *ngFor="let item of getModalidadControl(); let i = index"
+
             >
               <label class="example-section">
-                <mat-checkbox [formControlName]="i">{{
-                  modalidad[i]
-                }}</mat-checkbox>
+                <mat-checkbox [formControlName]="i">{{ modalidad[i] }}</mat-checkbox>
                 <!--<input type="checkbox" [formControlName]="i"> {{ modalidad[i] }}-->
               </label>
             </div>
@@ -173,9 +175,7 @@
           value="i"
           style="margin: 6px"
         >
-          <span (change)="getItemSelectedValue()" id="inlineCheckbox{{ i }}">{{
-            control
-          }}</span>
+          <span (change)="getItemSelectedValue()" id="inlineCheckbox{{ i }}">{{ control }}</span>
         </mat-radio-button>
       </mat-list>
 
@@ -241,9 +241,12 @@
             <mat-panel-title> Ambientes </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-selection-list #shoes>
-            <mat-list-option *ngFor="let other of others_build">
+            <mat-list-option
+              formArrayName="ambientes"
+              *ngFor="let other of others_build; let b = index" >
+
               {{ other }}
-            </mat-list-option>
+            </mat-list-option >
           </mat-selection-list>
         </mat-expansion-panel>
       </mat-accordion>
@@ -320,20 +323,23 @@
                 max="99999"
                 min="0"
                 (keyup.enter)="getFieldNumber($event, 'uf')"
-                (blur)="getFieldNumber($event, 'uf')"/>
+                (blur)="getFieldNumber($event, 'uf')"
+              />
             </mat-form-field>
           </td>
           <td>
             <mat-form-field class="example-full-width">
               <mat-label>Precio Pesos :</mat-label>
               <input
-                formControlName="valorPrecioPeso" [(ngModel)]="valorPrecioPeso"
+                formControlName="valorPrecioPeso"
+                [(ngModel)]="valorPrecioPeso"
                 type="number"
                 matInput
                 max="999.999.999"
                 min="0"
                 (keyup.enter)="getFieldNumber($event, 'peso')"
-                (blur)="getFieldNumber($event, 'peso')"/>
+                (blur)="getFieldNumber($event, 'peso')"
+              />
             </mat-form-field>
           </td>
         </tr>
@@ -347,13 +353,15 @@
           <button mat-button matStepperPrevious>Atras</button>
         </div>
         <div fxFlex fxLayoutAlign="flex-end center">
-          <button fxShow="true" mat-raised-button color="primary" [disabled]="thirdFormGroup.invalid">
+          <button
+            fxShow="true"
+            mat-raised-button
+            color="primary"
+            [disabled]="thirdFormGroup.invalid">
             Grabar
           </button>
         </div>
       </div>
-<app-upload-image></app-upload-image>
-
 
     </form>
   </mat-step>

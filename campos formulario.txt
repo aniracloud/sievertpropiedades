@@ -1,0 +1,17 @@
+controls
+	codigoPostal : value
+	comunaSelected :value
+	direccion : value
+	modalidad : controls[0] value 
+		  : controls[1] value
+	regionSelected value region
+	tipoPropiedad : value
+	titulo : value
+value
+	codigoPostal
+	comunaSelected
+	direccion
+	modalidad[0] [1]
+	regionSelected region
+	tipoPropiedad
+	titulo

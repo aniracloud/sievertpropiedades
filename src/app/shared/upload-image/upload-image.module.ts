@@ -16,6 +16,6 @@ import { UploadImageComponent } from './upload-image.component';
     UploadImageRoutingModule,
     MatCardModule
   ],
-  exports:[UploadImageComponent]
+  exports: []
 })
 export class UploadImageModule { }

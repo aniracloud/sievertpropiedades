@@ -1,20 +1,20 @@
 <div class="new-propiedad-container">
   <form [formGroup]="editPropiedadForm" (ngSubmit)="editPropiedad(editPropiedadForm.value)">
     <mat-form-field>
-      <mat-label>Title</mat-label>
+      <mat-label>Titulo</mat-label>
      <!-- {{ propiedad | json }}> imprime el contenido de la propiedad-->
       <input matInput placeholder="Title post" formControlName="titlePropiedad">
         <!-- el nombre del formControlName debe coinsidir con la declaracion que se hace en edit-propiedad,components.ts-->
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Content</mat-label>
+      <mat-label>Direcciòn</mat-label>
       <input matInput placeholder="Contenido propiedad"
       formControlName="contentPropiedad">
     </mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="Tags" multiple formControlName="tagsPropiedad">
-          <mat-option value="life">Life</mat-option>
-          <mat-option value="sport">Sport</mat-option>
+      <mat-select placeholder="Modalidad" multiple formControlName="tagsPropiedad">
+          <mat-option value="life">Arriendo</mat-option>
+          <mat-option value="sport">Venta</mat-option>
           <mat-option value="beauty">Beauty</mat-option>
       </mat-select>
     </mat-form-field>

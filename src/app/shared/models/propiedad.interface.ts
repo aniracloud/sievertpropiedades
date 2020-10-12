@@ -4,5 +4,5 @@ contentPropiedad: string;
 imagePropiedad?: any;
 id?: string;
 tagsPropiedad: string;
-fileRef?: string
+fileRef?: string;
 }

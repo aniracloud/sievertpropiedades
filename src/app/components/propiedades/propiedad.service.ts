@@ -64,6 +64,8 @@ export class PropiedadService {
   }
 
 
+
+
   private savePropiedad(propiedad: PropiedadI) {
     const propiedadObj = {
       titlePropiedad: propiedad.titlePropiedad,
@@ -79,6 +81,9 @@ export class PropiedadService {
       return this.propiedadescollection.add(propiedadObj);
     }
   }
+
+
+
 
 
   private uploadimage(propiedad: PropiedadI, image: FileI) {

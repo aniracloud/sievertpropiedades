@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   declarations: [],
   imports: [
     CommonModule, MatFormFieldModule
-  ]
+  ],
+  exports: []
 })
 export class EditPropiedadModule { }
