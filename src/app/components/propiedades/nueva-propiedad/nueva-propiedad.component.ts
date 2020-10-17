@@ -38,6 +38,7 @@ import { PesoPipe } from '../../../shared/pipes/thousandsPipe';
 
 
 import { TrasformaService } from '@shared/services/trasforma.service';
+import { MatSelectionListChange } from '@angular/material/list';
 
 
 
@@ -98,7 +99,17 @@ export class NuevaPropiedadComponent implements OnInit {
     'Caldera Ind.',
     'Caldera Edificio',
   ];
-  orienta2 = ['N', 'NP', 'NO', 'S', 'SO', 'SP'];
+
+  orienta2: {name: string, id: number } [] = [
+    {name: 'N', id: 1},
+    {name: 'NP', id: 2},
+    {name: 'NO', id: 3},
+    {name: 'S', id: 4},
+    {name: 'SO', id: 5},
+    {name: 'SP', id: 6}
+  ];
+
+
   comunidad2 = [
     'Gimnacio',
     'Zona Juegos',
@@ -107,25 +118,32 @@ export class NuevaPropiedadComponent implements OnInit {
     'Area Verde',
     'Picina',
   ];
+
   ItemSelectedValues = [];
-  others_build: string[] = [
-    'cocina americana',
-    'Estar',
-    'Logia',
-    'Patio',
-    'Home Office',
+
+
+
+  OTHERS_BUILD: {name: string, id: number } [] = [
+    {name: 'cocina americana', id: 1},
+    {name: 'Estar', id: 2},
+    {name: 'Logia', id: 3},
+    {name: 'Patio', id: 4},
+    {name: 'Home Office', id: 5}
   ];
-  othersInstallBuild: string[] = [
-    'Conserje',
-    'Areas Verdes',
-    'Sauna',
-    'Ascensor',
-    'Bicicletero',
-    'Piscina',
-    'Estacionamiento Visitas',
-    'Gimnasio',
-    'Sala Multiuso',
-    'Quincho',
+
+
+
+  OTHERSINSTALLBUILD: {name: string, id: number } [] = [
+    {name: 'Conserje', id: 1 },
+    {name: 'Areas Verdes', id: 2},
+    {name: 'Sauna', id: 3},
+    {name: 'Ascensor', id: 4},
+    {name: 'Bicicletero', id: 5},
+    {name: 'Piscina', id: 6},
+    {name: 'Estacionamiento Visitas', id: 7},
+    {name: 'Gimnasio', id: 8},
+    {name: 'Sala Multiuso', id: 9},
+    {name: 'Quincho', id: 10}
   ];
 
   regionesChile: any = null;
@@ -188,15 +206,13 @@ export class NuevaPropiedadComponent implements OnInit {
       old_build: [''],
       met_utiles: [''],
       build_floor: ['', Validators.pattern('^[0-9]+$')],
-
       bedroom: [''],
       bath: [''],
       build_terrace: [''],
       store: [''],
-
-      orienta: [''],
-      control: [''],
-      ambientes: [],
+      orientacion: [],
+      selectedAmbientes: [],
+      selectedInstalaciones: [],
       description: ['', Validators.required],
     });
 
@@ -244,7 +260,11 @@ export class NuevaPropiedadComponent implements OnInit {
 
   }
 
+  getother(change: MatSelectionListChange){
 
+    console.log(change.option.value, change.option.selected);
+
+  }
 
   buildModalidad() {
     const values = this.modalidad.map((value) => new FormControl(false));
@@ -338,7 +358,7 @@ export class NuevaPropiedadComponent implements OnInit {
       }
       const valoruf2 = this.thirdFormGroup.get('valorPrecioUF').value;
       const valor3 = valoruf2.toString();
-      if (valor3.length > 0 && valor3 != '0') {
+      if (valor3.length > 0 && valor3 !== '0') {
         if (evt.code === 'Enter') {
           console.log('Valor luego de presionar enter: ', valor3);
           return;

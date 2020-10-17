@@ -168,16 +168,15 @@
           />
         </mat-form-field>
       </div>
-      <mat-list appearance="">
-        <mat-label>Orientacion </mat-label>
-        <mat-radio-button
-          *ngFor="let control of orienta2; index as i"
-          value="i"
-          style="margin: 6px"
-        >
-          <span (change)="getItemSelectedValue()" id="inlineCheckbox{{ i }}">{{ control }}</span>
-        </mat-radio-button>
-      </mat-list>
+
+      <mat-selection-list formControlName ="orientacion" (selectionChange)="getother($event)">
+        <mat-label>Orientacion</mat-label>
+        <mat-list-option class="list-horizontal"
+          *ngFor="let controlar of orienta2" [value]= "controlar"
+          style="margin: 6px">
+        {{controlar.name}}
+        </mat-list-option>
+      </mat-selection-list>
 
       <mat-form-field appearance="" [style.width.px]="100">
         <mat-label>Dormitorios</mat-label>
@@ -231,21 +230,15 @@
         />
       </mat-form-field>
 
-      <mat-accordion
-        #firstAccordion="matAccordion"
-        class="example-headers-align"
-        multi
-      >
+      <mat-accordion #firstAccordion="matAccordion" class="example-headers-align" multi>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title> Ambientes </mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-selection-list #shoes>
+          <mat-selection-list formControlName ="selectedAmbientes" (selectionChange)="getother($event)">
             <mat-list-option
-              formArrayName="ambientes"
-              *ngFor="let other of others_build; let b = index" >
-
-              {{ other }}
+              *ngFor="let other of OTHERS_BUILD" [value]="other" >
+              {{ other.name }}
             </mat-list-option >
           </mat-selection-list>
         </mat-expansion-panel>
@@ -259,9 +252,9 @@
           <mat-expansion-panel-header>
             <mat-panel-title> Instalciones Edificio </mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-selection-list #shoes>
-            <mat-list-option *ngFor="let othersInstall of othersInstallBuild">
-              {{ othersInstall }}
+          <mat-selection-list formControlName ="selectedInstalaciones" (selectionChange)="getother($event)">
+            <mat-list-option *ngFor="let othersInstall of OTHERSINSTALLBUILD" [value]= "othersInstall">
+              {{ othersInstall.name }}
             </mat-list-option>
           </mat-selection-list>
         </mat-expansion-panel>
