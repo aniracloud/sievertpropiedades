@@ -9,8 +9,7 @@
           matInput
           formControlName="titulo"
           placeholder="5 caracteres minimo"
-          required
-        />
+          required/>
       </mat-form-field>
       <p>
         <mat-form-field class="full-medium">
@@ -20,11 +19,10 @@
             formControlName="direccion"
             minlength="5"
             maxlength="30"
-            required
-          />
+            required/>
         </mat-form-field>
       </p>
-      <table class="full-width">
+      <table>
         <tr>
           <td>
             <mat-form-field>
@@ -33,8 +31,7 @@
                 <mat-option
                   *ngFor="let regionchile of regionesChile; let i = index"
                   [value]="regionchile"
-                  (click)="getRegionSelectedValue(regionchile.comunas, regionchile)"
-                >
+                  (click)="getRegionSelectedValue(regionchile.comunas, regionchile)">
                   {{ regionchile.region}}
                 </mat-option>
               </mat-select>
@@ -46,13 +43,11 @@
               <mat-select
                 formControlName="comunaSelected"
                 Name="comuna"
-                aria-required="regionSelected"
-              >
+                aria-required="regionSelected">
                 <mat-option
                   *ngFor="let comuna of comunasChile"
                   [value]="comuna"
-                  (click)="getComunaSelectedValue(comuna)"
-                >
+                  (click)="getComunaSelectedValue(comuna)">
                   {{ comuna }}
                 </mat-option>
               </mat-select>
@@ -70,8 +65,7 @@
                 min = "1"
                 max = "9999999"
                 name="codigo"
-                (keydown)="UbicacionSvc.check($event)"
-              />
+                (keydown)="UbicacionSvc.check($event)"/>
               <mat-hint align="end">{{ postalCode.value.length }} / 8</mat-hint>
             </mat-form-field>
           </td>
@@ -83,27 +77,23 @@
               <mat-select formControlName="tipoPropiedad" Name="tipoPropiedad">
                 <mat-option
                   *ngFor="let tipos of tipoPropiedades"
-                  [value]="tipos.propiedad"
-                >
+                  [value]="tipos.propiedad">
                   {{ tipos.propiedad }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
+
           </td>
           <td>
-            <span>Modalidad</span>
-            <div
-              formArrayName="modalidad"
-              *ngFor="let item of getModalidadControl(); let i = index"
+            <mat-selection-list formControlName ="modalidad" (selectionChange)="getother($event)">
+              <mat-label>Modalidad</mat-label>
+              <mat-list-option class="list-horizontal" [disableRipple]="true"
+                *ngFor="let propModal of modalidad" [value]= "propModal">
+              {{propModal.name}}
+              </mat-list-option>
+            </mat-selection-list>
 
-            >
-              <label class="example-section">
-                <mat-checkbox [formControlName]="i">{{ modalidad[i] }}</mat-checkbox>
-                <!--<input type="checkbox" [formControlName]="i"> {{ modalidad[i] }}-->
-              </label>
-            </div>
 
-            <!-- <pre>{{ modalidad | json }}</pre>-->
           </td>
         </tr>
       </table>
@@ -128,8 +118,7 @@
             name="Constr"
             type="text"
             matInput
-            maxlength="20"
-          />
+            maxlength="20"/>
         </mat-form-field>
 
         <mat-form-field color="accent" appearance="" [style.width.px]="120">
@@ -137,8 +126,7 @@
           <input
             formControlName="old_build"
             matInput
-            [matDatepicker]="picker1"
-          />
+            [matDatepicker]="picker1"/>
           <mat-datepicker-toggle
             matSuffix
             [for]="picker1"
@@ -154,8 +142,7 @@
             type="text"
             matInput
             maxlength="4"
-            (keydown)="getTecla($event, 'met_utiles')"
-          />
+            (keydown)="getTecla($event, 'met_utiles')"/>
         </mat-form-field>
 
         <mat-form-field appearance="" [style.width.px]="50">
@@ -171,7 +158,7 @@
 
       <mat-selection-list formControlName ="orientacion" (selectionChange)="getother($event)">
         <mat-label>Orientacion</mat-label>
-        <mat-list-option class="list-horizontal"
+        <mat-list-option class="list-horizontal" [disableRipple]="true"
           *ngFor="let controlar of orienta2" [value]= "controlar"
           style="margin: 6px">
         {{controlar.name}}
@@ -230,14 +217,34 @@
         />
       </mat-form-field>
 
+      <mat-form-field appearance="" [style.width.px]="125">
+        <mat-label>Estacionamiento</mat-label>
+        <input
+          formControlName="estaciona"
+          name="estaciona"
+          type="number"
+          matInput
+          maxlength="1"
+          min="0"
+          (keydown)="getTecla($event, 'estacion')"
+        />
+      </mat-form-field>
+
+
+
+
+
+
+
+
       <mat-accordion #firstAccordion="matAccordion" class="example-headers-align" multi>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title> Ambientes </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-selection-list formControlName ="selectedAmbientes" (selectionChange)="getother($event)">
-            <mat-list-option
-              *ngFor="let other of OTHERS_BUILD" [value]="other" >
+            <mat-list-option [disableRipple]="true"
+              *ngFor="let other of OTHERS_BUILD" [value]="other">
               {{ other.name }}
             </mat-list-option >
           </mat-selection-list>
@@ -246,14 +253,13 @@
       <mat-accordion
         #secondAccordion="matAccordion"
         class="example-headers-align"
-        multi
-      >
+        multi>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title> Instalciones Edificio </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-selection-list formControlName ="selectedInstalaciones" (selectionChange)="getother($event)">
-            <mat-list-option *ngFor="let othersInstall of OTHERSINSTALLBUILD" [value]= "othersInstall">
+            <mat-list-option [disableRipple]="true" *ngFor="let othersInstall of OTHERSINSTALLBUILD" [value]= "othersInstall">
               {{ othersInstall.name }}
             </mat-list-option>
           </mat-selection-list>
@@ -263,8 +269,7 @@
       <mat-form-field
         hintLabel="Max 300 caracteres"
         appearance="outline"
-        class="classdescription"
-      >
+        class="classdescription">
         <mat-label>Descripcion</mat-label>
         <textarea
           matInput
@@ -273,12 +278,10 @@
           cdkTextareaAutosize
           cdkAutosizeMinRows="5"
           cdkAutosizeMaxRows="10"
-          maxlength="300"
-        >
+          maxlength="300">
         </textarea>
-        <mat-hint align="end"
-          >{{ labeldescription.value?.length || 0 }}/300</mat-hint
-        >
+        <mat-hint align="end">
+        {{ labeldescription.value?.length || 0 }}/300</mat-hint>
       </mat-form-field>
 
       <mat-divider></mat-divider>
@@ -316,8 +319,7 @@
                 max="99999"
                 min="0"
                 (keyup.enter)="getFieldNumber($event, 'uf')"
-                (blur)="getFieldNumber($event, 'uf')"
-              />
+                (blur)="getFieldNumber($event, 'uf')"/>
             </mat-form-field>
           </td>
           <td>

@@ -68,11 +68,46 @@ export class PropiedadService {
 
   private savePropiedad(propiedad: PropiedadI) {
     const propiedadObj = {
+
+    codigoPostal: propiedad.codigoPostal,
+    comunaSelected: propiedad.comunaSelected,
+    direccion: propiedad.direccion,
+    modalidad: propiedad.modalidad,
+    region: propiedad.region,
+    tipoPropiedad: propiedad.tipoPropiedad,
+    titlePropiedad: propiedad.titulo,
+
+        /******  Formulario 2 ******/
+
+    bath: propiedad.bath,
+    bedroom: propiedad.bedroom,
+    build_floor: propiedad.build_floor,
+    build_terrace: propiedad.build_terrace,
+    building: propiedad.building,
+    description: propiedad.description,
+    met_utiles: propiedad.met_utiles,
+    old_build: propiedad.old_build,
+    orientacion: propiedad.orientacion,
+    selectedAmbientes: propiedad.selectedAmbientes,
+    selectedInstalaciones: propiedad.selectedInstalaciones,
+    store: propiedad.store,
+    estaciona: propiedad.estaciona,
+
+    /****  Formulario 3 ***/
+
+    valorPrecioPeso:  propiedad.valorPrecioPeso,
+    valorPrecioUF:  propiedad.valorPrecioUF,
+
+/**************    antiguo formulario   *************** */
+/*
       titlePropiedad: propiedad.titlePropiedad,
+      */
       contentPropiedad: propiedad.contentPropiedad,
+
       imagePropiedad: this.downloadURL,
       fileRef: this.filePath,
       tagsPropiedad: propiedad.tagsPropiedad
+
     };
 
     if (propiedad.id) {
@@ -101,6 +136,13 @@ export class PropiedadService {
       })
     ).subscribe();
   }
+
+
+
+
+
+
+
 
 
 }

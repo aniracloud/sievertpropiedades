@@ -55,6 +55,9 @@ import { MatSelectionListChange } from '@angular/material/list';
     },
   ],
 })
+
+
+
 export class NuevaPropiedadComponent implements OnInit {
   @ViewChild('firstAccordion', { static: true }) firstAccordion: MatAccordion;
   @ViewChild('secondAccordion', { static: true }) secondAccordion: MatAccordion;
@@ -91,7 +94,11 @@ export class NuevaPropiedadComponent implements OnInit {
   public region: any;
 
 
-  modalidad = ['Arriendo', 'Venta'];
+  modalidad: {name: string, id: number } [] = [
+    {name: 'Arriendo', id: 1},
+    {name: 'Venta', id: 2}
+  ];
+
 
   calefa2: Array<string> = [
     'Loza Radiante',
@@ -174,10 +181,16 @@ export class NuevaPropiedadComponent implements OnInit {
     public UbicacionSvc: UbicacionesService,
     private _formBuilder: FormBuilder,
     public  trasformaSvc: TrasformaService
+
+
   ) {}
 
 
   ngOnInit() {
+
+
+
+
 
 
     this.firstFormGroup = this._formBuilder.group({
@@ -195,10 +208,7 @@ export class NuevaPropiedadComponent implements OnInit {
       comunaSelected: ['', Validators.required],
       codigoPostal: ['', Validators.pattern('\\-?\\d*\\.?\\d{1,2}')],
       tipoPropiedad: ['', Validators.required],
-      modalidad: this.buildModalidad(),
-      // modalidad: this._formBuilder.group({
-      //  rent:    [''],
-      //  sales:    ['']
+      modalidad: ['', Validators.required]     //this.buildModalidad(),
     });
 
     this.secondFormGroup = this._formBuilder.group({
@@ -210,6 +220,7 @@ export class NuevaPropiedadComponent implements OnInit {
       bath: [''],
       build_terrace: [''],
       store: [''],
+      estaciona: [''],
       orientacion: [],
       selectedAmbientes: [],
       selectedInstalaciones: [],

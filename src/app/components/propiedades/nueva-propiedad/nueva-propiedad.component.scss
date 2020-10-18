@@ -128,10 +128,25 @@ ul {
 
 
 .list-horizontal {
-  padding: 0;
 
     display: inline-block;
     height: auto;
     width: auto;
+    transition: none !important;
 
+}
+
+
+/*** desactiva el efecto sobre los mat-list **/
+
+.mat-list-option:hover{
+  background: inherit;
+}
+
+.mat-list-option.mat-list-item-focus{
+  background: inherit;
+}
+
+.mat-list-option{
+  background: inherit;
 }
