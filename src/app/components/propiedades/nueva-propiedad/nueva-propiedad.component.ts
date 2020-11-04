@@ -5,7 +5,8 @@ import {
   ViewChild,
   ViewEncapsulation,
   ElementRef,
-  HostListener
+  HostListener,
+  Pipe
 } from '@angular/core';
 
 
@@ -40,6 +41,12 @@ import { PesoPipe } from '../../../shared/pipes/thousandsPipe';
 import { TrasformaService } from '@shared/services/trasforma.service';
 import { MatSelectionListChange } from '@angular/material/list';
 
+import { ModalidadPropiedad, OrientaPropiedad, OthersBuildPropiedad, OthersInstallBuildPropiedad } from '@shared/models/propiedad.interface';
+
+
+
+import { map, filter } from 'rxjs/operators';
+import { async } from '@angular/core/testing';
 
 
 
@@ -64,37 +71,17 @@ export class NuevaPropiedadComponent implements OnInit {
 
   @ViewChild('uf') nameFieldUF: ElementRef;
 
-  /*
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent): void {
-    console.log('Codigo del evento ', event.code);
-    if((event.code === 'Enter') && (this.thirdFormGroup.get('valorPrecioUF').value != null) ){
+  //@Input() propiedad: PropiedadI;
 
-      console.log('en el campo UF - Enter');
-      const x = ((+this.valorPrecioPeso) / (this.valorUF.uf.valor)).toPrecision(3);
-      this.valorPrecioUF = +x;
-
-    }else{
-      if((event.code === 'NumpadEnter') && (this.thirdFormGroup.get('valorPrecioUF').value != null) ){
-        console.log('en el campo UF - NumpadEnter');
-      }
-    }
-
-    }*/
-
-  /*if (!this.isComparisonWindow) {
-      if (event.key === 'ArrowLeft') {
-        this.navigateLeft();
-      } else if (event.key === 'ArrowRight') {
-        this.navigateRight();
-      }*/
+  @Input() formData: FormGroup;
 
   private image: any;
   private ubica: any;
   public region: any;
 
 
-  modalidad: {name: string, id: number } [] = [
+
+  modalidad: ModalidadPropiedad[] = [
     {name: 'Arriendo', id: 1},
     {name: 'Venta', id: 2}
   ];
@@ -107,7 +94,9 @@ export class NuevaPropiedadComponent implements OnInit {
     'Caldera Edificio',
   ];
 
-  orienta2: {name: string, id: number } [] = [
+
+
+  orienta2: OrientaPropiedad [] = [
     {name: 'N', id: 1},
     {name: 'NP', id: 2},
     {name: 'NO', id: 3},
@@ -115,6 +104,8 @@ export class NuevaPropiedadComponent implements OnInit {
     {name: 'SO', id: 5},
     {name: 'SP', id: 6}
   ];
+
+
 
 
   comunidad2 = [
@@ -130,7 +121,7 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
 
-  OTHERS_BUILD: {name: string, id: number } [] = [
+  OthersBuild: OthersBuildPropiedad [] = [
     {name: 'cocina americana', id: 1},
     {name: 'Estar', id: 2},
     {name: 'Logia', id: 3},
@@ -140,7 +131,7 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
 
-  OTHERSINSTALLBUILD: {name: string, id: number } [] = [
+  OthersInstallBuild: OthersInstallBuildPropiedad [] = [
     {name: 'Conserje', id: 1 },
     {name: 'Areas Verdes', id: 2},
     {name: 'Sauna', id: 3},
@@ -153,45 +144,41 @@ export class NuevaPropiedadComponent implements OnInit {
     {name: 'Quincho', id: 10}
   ];
 
+
+
   regionesChile: any = null;
   tipoPropiedades: any = null;
   comunasChile: any;
-  comunas: '';
   comunaSelected: string;
-  tipoSelected: string;
 
   valorPrecioPeso = '';
   valorPrecioUF = null;
-  valorcasilla: false;
   valoruf = '';
 
-  public build_floor = '';
+
 
   public valorUF: any;
-
   public regionSelected: any;
 
+  //public xxx: PropiedadI;
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
 
+
   constructor(
     private propiedadSvc: PropiedadService,
-    public UbicacionSvc: UbicacionesService,
+    public  UbicacionSvc: UbicacionesService,
     private _formBuilder: FormBuilder,
     public  trasformaSvc: TrasformaService
-
-
   ) {}
 
 
+
+
+
   ngOnInit() {
-
-
-
-
-
 
     this.firstFormGroup = this._formBuilder.group({
       titulo: [
@@ -227,6 +214,21 @@ export class NuevaPropiedadComponent implements OnInit {
       description: ['', Validators.required],
     });
 
+   /* this.secondFormGroup.valueChanges
+        .pipe(
+          filter<any>(data => this.secondFormGroup.valid),
+          map(data => { data.description = data.description.replace(/<(?:.|\n)*?>/gm, '');
+                        return data;
+          })
+        )
+      .subscribe(data => console.log(JSON.stringify(data)));*/
+
+
+
+
+
+
+
     this.thirdFormGroup = this._formBuilder.group({
       valorPrecioUF: ['', Validators.required],
       valorPrecioPeso: ['', Validators.required],
@@ -254,6 +256,14 @@ export class NuevaPropiedadComponent implements OnInit {
       }
     );
 
+
+
+
+
+
+
+
+
     this.UbicacionSvc.getEconomico().subscribe(
       (dataUF) => (this.valorUF = dataUF),
       (err: HttpErrorResponse) => {
@@ -269,25 +279,27 @@ export class NuevaPropiedadComponent implements OnInit {
 
 
 
+
+    // tslint:disable-next-line: no-unused-expression
+
   }
+
+
+
 
   getother(change: MatSelectionListChange){
 
-    console.log(change.option.value, change.option.selected);
+   // console.log(change.option.value, change.option.selected);
 
   }
 
   buildModalidad() {
     const values = this.modalidad.map((value) => new FormControl(false));
-    //console.log(values[1]);
+
     return this._formBuilder.array(
       values,
       FormValidations.requiredMinCheckbox(1)
     );
-    /* this._formBulder.array([
-      new FormControl(false),
-      new FormControl(false)
-    ]);*/
   }
 
   getModalidadControl() {
@@ -296,7 +308,8 @@ export class NuevaPropiedadComponent implements OnInit {
       : null;
   }
 
-  OnChange($event): any {
+
+  OnChange($event: any[]): any {
     // MatCheckboxChange {checked,MatCheckbox}
     console.log($event.values);
     console.log($event);
@@ -304,6 +317,7 @@ export class NuevaPropiedadComponent implements OnInit {
       return this.firstFormGroup.valid;
     }
   }
+
 
   onSubmit() {
     console.log('Valores => ' + JSON.stringify(this.firstFormGroup.value));
@@ -356,8 +370,6 @@ export class NuevaPropiedadComponent implements OnInit {
       console.log(val);
     });
   }
-
-
 
 
 
@@ -431,13 +443,35 @@ export class NuevaPropiedadComponent implements OnInit {
     }
   }
 
+
+
   valida() {
-    console.log('validando el formulario');
-    console.log('region seleccionada : ', this.regionSelected);
-    console.log('comuna seleccionada : ', this.comunaSelected);
-    console.log('formulario 1', this.firstFormGroup);
-    console.log('formulario 2', this.secondFormGroup);
-    console.log('formulario 3', this.thirdFormGroup);
+
+
+   // console.log(typeof(this.firstFormGroup));
+
+
+   /* const resultArray1 = Object.entries(this.firstFormGroup.value);
+    const resultArray2 = Object.entries(this.secondFormGroup.value);
+    const resultArray3 = Object.entries(this.thirdFormGroup.value);*/
+
+   // this.propiedadSvc.componeArreglo(resultArray1, resultArray2, resultArray3);
+    this.propiedadSvc.componeArreglo(this.firstFormGroup.value, this.secondFormGroup.value, this.thirdFormGroup.value);
+
+
+/*
+    this.propiedad.titulo = this.firstFormGroup.value.titulo;
+
+    this.propiedad.direccion = this.firstFormGroup.value.direccion;
+    this.propiedad.codigoPostal = this.firstFormGroup.value.codigoPostal;
+    this.propiedad.region = this.firstFormGroup.value.regionSelected.region;
+    this.propiedad.comunaSelected = this.firstFormGroup.value.comunaSelected;
+    this.propiedad.modalidad[0].name = this.firstFormGroup.value.modalidad[0].name;
+    this.propiedad.modalidad[1].name = this.firstFormGroup.value.modalidad[1].name;
+    this.propiedad.tipoPropiedad = this.firstFormGroup.value.tipoPropiedad;
+*/
+
+
   }
 
 

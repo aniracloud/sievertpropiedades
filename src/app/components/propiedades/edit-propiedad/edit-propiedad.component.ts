@@ -14,7 +14,7 @@ export class EditPropiedadComponent implements OnInit {
 
   private image: any;
   public imageOriginal: any;
-  public imagePropiedad2 : string;
+  public imagePropiedad2: string;
 
   @Input() propiedad: PropiedadI;
 

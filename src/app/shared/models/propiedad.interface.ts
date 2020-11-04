@@ -7,14 +7,30 @@
   fileRef?: string;
 }*/
 
-// tslint:disable-next-line: class-name
-export interface modalidadPropiedad{
+export class ModalidadPropiedad{
   name: string;
   id: number ;
 }
 
-export interface PropiedadI {
+export class OrientaPropiedad{
+  name: string;
+  id: number;
+}
 
+export class OthersBuildPropiedad{
+  name: string;
+  id: number;
+}
+
+export class OthersInstallBuildPropiedad{
+  name: string;
+  id: number;
+}
+
+
+
+
+export interface PropiedadI {
   titlePropiedad: string;
   contentPropiedad: string;
   imagePropiedad?: any;
@@ -26,10 +42,9 @@ export interface PropiedadI {
   codigoPostal: number;
   comunaSelected: string;
   direccion: string;
-  modalidad: modalidadPropiedad[];
+  modalidad: ModalidadPropiedad[]; /****     agregar  ***/
   region: string;
   tipoPropiedad: string;
-  titulo: string;
 
 /******  Formulario 2 ******/
 
@@ -39,11 +54,11 @@ export interface PropiedadI {
   build_terrace: number;
   building: string;
   description: string;
-  met_utiles: string;
+  met_utiles: number; /* cambiar typo */
   old_build: Date;
-  orientacion: modalidadPropiedad[];
-  selectedAmbientes: modalidadPropiedad[];
-  selectedInstalaciones: modalidadPropiedad[];
+  orientacion: ModalidadPropiedad[]; /**** agregar ***/
+  selectedAmbientes: ModalidadPropiedad[]; /**** agregar ***/
+  selectedInstalaciones: ModalidadPropiedad[]; /**** agregar ***/
   store: number;
   estaciona: number;
 

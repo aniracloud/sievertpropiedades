@@ -1,7 +1,7 @@
 <mat-horizontal-stepper #stepper>
   <!-- Individualizacion de la  Propiedad-->
-  <mat-step [stepControl]="firstFormGroup" errorMessage="Faltan Datos">
-    <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit()">
+  <mat-step [stepControl]="firstFormGroup" errorMessage="Faltan Datos" >
+    <form [(formGroup)]="firstFormGroup" > <!--(ngSubmit)="onSubmit()"-->
       <ng-template matStepLabel>Datos Propiedad</ng-template>
       <mat-form-field class="full-medium">
         <mat-label>Titulo</mat-label>
@@ -108,7 +108,7 @@
 
   <!-- caracteristicas de la propiedad-->
   <mat-step [stepControl]="secondFormGroup" errorMessage="Faltan Datos">
-    <form [formGroup]="secondFormGroup" [style.width.%]="100">
+    <form [(formGroup)]="secondFormGroup"> <!-- [style.width.%]="100"-->
       <ng-template matStepLabel>Caracteristicas de la Propiedad</ng-template>
       <div>
         <mat-form-field appearance="">
@@ -178,7 +178,7 @@
         />
       </mat-form-field>
 
-      <mat-form-field appearance="" [style.width.px]="50">
+      <mat-form-field appearance="" [style.width.px]="60">
         <mat-label>Baños</mat-label>
         <input
           formControlName="bath"
@@ -229,14 +229,6 @@
           (keydown)="getTecla($event, 'estacion')"
         />
       </mat-form-field>
-
-
-
-
-
-
-
-
       <mat-accordion #firstAccordion="matAccordion" class="example-headers-align" multi>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -244,7 +236,7 @@
           </mat-expansion-panel-header>
           <mat-selection-list formControlName ="selectedAmbientes" (selectionChange)="getother($event)">
             <mat-list-option [disableRipple]="true"
-              *ngFor="let other of OTHERS_BUILD" [value]="other">
+              *ngFor="let other of OthersBuild" [value]="other">
               {{ other.name }}
             </mat-list-option >
           </mat-selection-list>
@@ -259,13 +251,12 @@
             <mat-panel-title> Instalciones Edificio </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-selection-list formControlName ="selectedInstalaciones" (selectionChange)="getother($event)">
-            <mat-list-option [disableRipple]="true" *ngFor="let othersInstall of OTHERSINSTALLBUILD" [value]= "othersInstall">
+            <mat-list-option [disableRipple]="true" *ngFor="let othersInstall of OthersInstallBuild" [value]= "othersInstall">
               {{ othersInstall.name }}
             </mat-list-option>
           </mat-selection-list>
         </mat-expansion-panel>
       </mat-accordion>
-
       <mat-form-field
         hintLabel="Max 300 caracteres"
         appearance="outline"
@@ -283,7 +274,6 @@
         <mat-hint align="end">
         {{ labeldescription.value?.length || 0 }}/300</mat-hint>
       </mat-form-field>
-
       <mat-divider></mat-divider>
       <div class="bord">
         <button mat-button matStepperPrevious>Atras</button>
@@ -292,12 +282,12 @@
         </button>
       </div>
     </form>
-    <!--  >Segundo formulario del formulario-->
+    <!--  Segundo formulario del formulario-->
   </mat-step>
 
   <!-- Valorizacion de la propiedad-->
   <mat-step [stepControl]="thirdFormGroup" errorMessage="Faltan Datos">
-    <form [formGroup]="thirdFormGroup" (ngSubmit)="valida()">
+    <form [(formGroup)]="thirdFormGroup" (ngSubmit)="valida()">
       <ng-template matStepLabel>Valor de la Propiedad</ng-template>
       <table class="example-full-width" cellspacing="0">
         <tr>
